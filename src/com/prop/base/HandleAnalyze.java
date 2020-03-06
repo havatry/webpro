@@ -1,6 +1,7 @@
 package com.prop.base;
 
 import com.alibaba.fastjson.JSON;
+import com.prop.bean.Page;
 import com.prop.bean.Record;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -61,6 +62,7 @@ public class HandleAnalyze extends HttpServlet{
             for (Cookie c : cookies) {
                 if (Objects.equals(c.getName(), "uid_")) {
                     uid = c.getValue();
+                    break;
                 }
             }
         }
@@ -72,7 +74,8 @@ public class HandleAnalyze extends HttpServlet{
                 e.printStackTrace();
             }
             Cookie cnew = new Cookie("uid_", uid);
-            cnew.setMaxAge(-1);
+            cnew.setMaxAge(60 * 60 * 24);
+            cnew.setPath("/"); // 必须设置
             resp.addCookie(cnew);
         }
 
@@ -86,29 +89,33 @@ public class HandleAnalyze extends HttpServlet{
         }
 
         // 从数据库中获取数据
-        Record record = null;
+        Page page = null;
         try {
-            record = requestDataBase.queryOne(date, uid);
+            page = requestDataBase.queryAll(uid, 0);
+            int total = requestDataBase.getToTal(uid);
+            page.setTotal(total);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        record.setStatus("在执行中");
-        record.setType("手动分析");
         resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
+//        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
+        resp.addHeader("Access-Control-Allow-Credentials", "true");
         PrintWriter out = resp.getWriter();
-        out.println(JSON.toJSONString(record));
+        out.println(JSON.toJSONString(page));
         out.close();
 
         // 将文件写入本地
+        int current_id = page.getData().get(0).getId();
         String uploadPath = req.getServletContext().getRealPath("./") + File.separator + UPLOAD_DIR;
         String targetFile = uploadFile((FileItem) map.get("file"), uploadPath);
         vnreal.algorithms.myRCRGF.util.Constants.WRITE_FILE =
-                (vnreal.algorithms.myAEF.util.Constants.resultDir = "results/data" + File.separator + String.valueOf(record.getId()) + File.separator);
+                (vnreal.algorithms.myAEF.util.Constants.resultDir = "results/data" + File.separator + String.valueOf(current_id) + File.separator);
         // 开启线程执行任务, 返回给前端一个报文
-        Task task = new Task(algorithm, targetFile, record.getId());
+        Task task = new Task(algorithm, targetFile, current_id);
         new Thread(task).start();
     }
 

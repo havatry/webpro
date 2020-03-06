@@ -1,8 +1,13 @@
 package com.prop.base;
 
+import com.prop.bean.Page;
 import com.prop.bean.Record;
+import com.prop.util.Constant;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 负责与数据库通信
@@ -44,21 +49,39 @@ public class RequestDataBase {
         return preparedStatement.executeUpdate() > 0;
     }
 
-    // 获取请求的唯一id
-    public Record queryOne(String dateStr, String uid) throws SQLException, ClassNotFoundException {
-        String sql = "select * from request where create_time = ? and operator = ?";
+    // 获取用户uid的所有请求 并且按照时间降序 取出前SIZE条记录
+    public Page queryAll(String uid, int offset) throws SQLException, ClassNotFoundException {
+        String sql = "select * from request where operator = ? ORDER BY create_time DESC limit ?, ?";
         Connection connection = connect();
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, dateStr);
-        preparedStatement.setString(2, uid);
+        preparedStatement.setString(1, uid);
+        preparedStatement.setInt(2, offset);
+        preparedStatement.setInt(3, Constant.SIZE);
         ResultSet resultSet = preparedStatement.executeQuery();
+        Page page = new Page();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        List<Record> records = new ArrayList<>();
+        while (resultSet.next()) {
+            Record record = new Record();
+            record.setId(resultSet.getInt("id"));
+            record.setDate(resultSet.getString("create_time"));
+            record.setAlgorithm("algorithm");
+            record.setStatus(resultSet.getString("status"));
+            record.setType(resultSet.getString("type"));
+            records.add(record);
+        }
+        page.setData(records);
+        return page;
+    }
+
+    // 查询数据库总数
+    public int getToTal(String uid) throws SQLException, ClassNotFoundException {
+        String sql = "select count(*) from request WHERE  operator = '" + uid + "'";
+        Connection connection = connect();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
         resultSet.next();
-        Record record = new Record();
-        // 只有一条记录
-        record.setId(resultSet.getInt("id"));
-        record.setDate(dateStr);
-        record.setAlgorithm(resultSet.getString("algorithm"));
-        return record;
+        return resultSet.getInt(1);
     }
 
     // 删除指定的request
