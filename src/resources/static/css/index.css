@@ -8,3 +8,7 @@ ul {
     float: right;
     margin-top: 30px;
 }
+
+.pagination>li>a, .pagination>li>span, .pagination>.disabled>a {
+    background-color: rgb(30,41,61);
+}

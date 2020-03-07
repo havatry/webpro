@@ -8,12 +8,8 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
     <script src="js/commicate.js"></script>
+    <script src="js/domprocess.js"></script>
     <link rel="stylesheet" href="css/index.css">
-    <style type="text/css">
-        .pagination>li>a, .pagination>li>span, .pagination>.disabled>a {
-            background-color: rgb(30,41,61);
-        }
-    </style>
 </head>
 <body style="background-color: #000">
 <!-- 导航栏 -->
@@ -408,7 +404,9 @@
         var doc = document.getElementById("handle_analyze");
 		var formData = new FormData(doc);
 		RequestPost("http://localhost:8080/analyze/handle", formData, function (data) {
-            alert(JSON.stringify(data));
+//            alert(JSON.stringify(data));
+            var tableDom = document.getElementById('tab');
+            taskQueueUpdate(tableDom, data);
         });
         // 擦除数据
         $('#handle').modal('hide');

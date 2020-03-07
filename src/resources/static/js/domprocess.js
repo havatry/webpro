@@ -1,31 +1,37 @@
-// ÒÀ¾İ·µ»Ø½á¹û´¦ÀídomÔªËØ
+// ä¾æ®è¿”å›ç»“æœå¤„ç†domå…ƒç´ 
 function taskQueueUpdate(tableDom, data) {
+    // alert(JSON.stringify(data))
     /**
-     * {"data":[{"algorithm":"algorithm","date":"2020-03-07 23:52:01","id":74,"status":"ÔÚÖ´ĞĞÖĞ","type":"ÊÖ¶¯·ÖÎö"},{"algorithm":"algorithm","date":"2020-03-07 21:08:25","id":73,"status":"Ó³Éä³É¹¦","type":"ÊÖ¶¯·ÖÎö"},{"algorithm":"algorithm","date":"2020-03-07 21:07:57","id":72,"status":"Ó³Éä³É¹¦","type":"ÊÖ¶¯·ÖÎö"},{"algorithm":"algorithm","date":"2020-03-07 21:07:25","id":71,"status":"Ó³Éä³É¹¦","type":"ÊÖ¶¯·ÖÎö"},{"algorithm":"algorithm","date":"2020-03-07 20:54:58","id":70,"status":"Ó³Éä³É¹¦","type":"ÊÖ¶¯·ÖÎö"},{"algorithm":"algorithm","date":"2020-03-07 20:54:34","id":69,"status":"Ó³Éä³É¹¦","type":"ÊÖ¶¯·ÖÎö"}],"total":6}
+     * {"data":[{"algorithm":"algorithm","date":"2020-03-07 23:52:01","id":74,"status":"åœ¨æ‰§è¡Œä¸­","type":"æ‰‹åŠ¨åˆ†æ"},{"algorithm":"algorithm","date":"2020-03-07 21:08:25","id":73,"status":"æ˜ å°„æˆåŠŸ","type":"æ‰‹åŠ¨åˆ†æ"},{"algorithm":"algorithm","date":"2020-03-07 21:07:57","id":72,"status":"æ˜ å°„æˆåŠŸ","type":"æ‰‹åŠ¨åˆ†æ"},{"algorithm":"algorithm","date":"2020-03-07 21:07:25","id":71,"status":"æ˜ å°„æˆåŠŸ","type":"æ‰‹åŠ¨åˆ†æ"},{"algorithm":"algorithm","date":"2020-03-07 20:54:58","id":70,"status":"æ˜ å°„æˆåŠŸ","type":"æ‰‹åŠ¨åˆ†æ"},{"algorithm":"algorithm","date":"2020-03-07 20:54:34","id":69,"status":"æ˜ å°„æˆåŠŸ","type":"æ‰‹åŠ¨åˆ†æ"}],"total":6}
      */
     var tab = '';
-    var header = '<tr style="color: rgb(209, 73, 78);"><td>Ê±¼ä</td><td>ÀàĞÍ</td>' +
-        '<td>×´Ì¬</td><td>½á¹û</td><td>²Ù×÷</td></tr>';
-    // Ìî³äÊı¾İ
+    var header = '<tr style="color: rgb(209, 73, 78);"><td>æ—¶é—´</td><td>ç±»å‹</td><td>ç®—æ³•</td>' +
+        '<td>çŠ¶æ€</td><td>ç»“æœ</td><td>æ“ä½œ</td></tr>';
+    // å¡«å……æ•°æ®
     var content = data['data'];
     tab += header;
     for (var i = 0; i < content.length; i++) {
-        var line = templateTr().format(content[i].date, content[i].type, statusLabel(content[i].status), content.status, )
+        var line = templateTr().format(content[i].date, content[i].type, content[i].algorithm, statusLabel(content[i].status), content[i].status,
+            content[i].status == 'åœ¨æ‰§è¡Œä¸­' ? 'btn btn-secondary disabled' : 'btn btn-primary',
+            content[i].type == 'æ‰‹åŠ¨åˆ†æ' ? 'display:none' : '', content[i].status == 'åœ¨æ‰§è¡Œä¸­' ? 'btn btn-secondary disabled' : 'btn btn-primary');
+        tab += line;
     }
+    // ä¿®æ”¹å†…å®¹
+    tableDom.innerHTML = tab;
 }
 
 function templateTr() {
-    return '<tr><td>{0}</td><td>{1}</td><td><span class="{2}">{3}</span></td><td><button class="{4}" style="color: black" {5}>²é¿´</button>' +
-        '<button class="{6}" style="color: black">ÏÂÔØ</button></td><td><button class="btn btn-danger">É¾³ı</button><button class="btn btn-success">Ö´ĞĞ</button></td></tr>';
+    return '<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><span class="{3}">{4}</span></td><td><button class="{5}" style="color: black;{6}">æŸ¥çœ‹</button>' +
+        '<button class="{7}" style="color: black">ä¸‹è½½</button></td><td><button class="btn btn-danger">åˆ é™¤</button><button class="btn btn-success">æ‰§è¡Œ</button></td></tr>';
 }
 
 function statusLabel(status) {
     switch (status) {
-        case 'ÔÚÖ´ĞĞÖĞ':
+        case 'åœ¨æ‰§è¡Œä¸­':
             return 'label label-default';
-        case 'Ö´ĞĞÍê³É':
+        case 'æ‰§è¡Œå®Œæˆ':
             return 'label label-primary';
-        case 'Ó³Éä³É¹¦':
+        case 'æ˜ å°„æˆåŠŸ':
             return 'label label-success';
         default:
             return 'label label-danger';

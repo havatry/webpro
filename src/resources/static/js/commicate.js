@@ -1,4 +1,4 @@
-// ÓÃÓÚÌá½»ajaxµÄÇëÇó
+// ç”¨äºæäº¤ajaxçš„è¯·æ±‚
 function RequestPost(url, data, func_succ) {
     $.ajax({
         type: "POST",
