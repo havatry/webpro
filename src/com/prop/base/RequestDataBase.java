@@ -59,7 +59,6 @@ public class RequestDataBase {
         preparedStatement.setInt(3, Constant.SIZE);
         ResultSet resultSet = preparedStatement.executeQuery();
         Page page = new Page();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<Record> records = new ArrayList<>();
         while (resultSet.next()) {
             Record record = new Record();

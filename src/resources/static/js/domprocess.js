@@ -20,6 +20,32 @@ function taskQueueUpdate(tableDom, data) {
     tableDom.innerHTML = tab;
 }
 
+// 分页插件
+function renderPagination(jqueryObj, total) {
+    jqueryObj.bootstrapPaginator({
+        currentPage: 1,
+        totalPages: total,
+        size: 'normal',
+        bootstrapMajorVersion: 4,
+        align: 'right',
+        numberOfPages: 10,
+        itemTexts: function (type, page, current) {
+            switch (type) {
+                case 'first':
+                    return '首页';
+                case 'prev':
+                    return '上页';
+                case 'next':
+                    return '下页';
+                case 'last':
+                    return '尾页';
+                case 'page':
+                    return page;
+            }
+        }
+    })
+}
+
 function templateTr() {
     return '<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><span class="{3}">{4}</span></td><td><button class="{5}" style="color: black;{6}">查看</button>' +
         '<button class="{7}" style="color: black">下载</button></td><td><button class="btn btn-danger">删除</button><button class="btn btn-success">执行</button></td></tr>';
