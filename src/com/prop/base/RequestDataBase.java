@@ -65,7 +65,7 @@ public class RequestDataBase {
             Record record = new Record();
             record.setId(resultSet.getInt("id"));
             record.setDate(resultSet.getString("create_time"));
-            record.setAlgorithm("algorithm");
+            record.setAlgorithm(resultSet.getString("algorithm"));
             record.setStatus(resultSet.getString("status"));
             record.setType(resultSet.getString("type"));
             records.add(record);
