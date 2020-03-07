@@ -29,7 +29,7 @@ function renderPagination(jqueryObj, total) {
         bootstrapMajorVersion: 4,
         align: 'right',
         numberOfPages: 10,
-        itemTexts: function (type, page, current) {
+        itemTexts: function (type, page, current, f) {
             switch (type) {
                 case 'first':
                     return '首页';
@@ -42,7 +42,8 @@ function renderPagination(jqueryObj, total) {
                 case 'page':
                     return page;
             }
-        }
+        },
+        onPageChanged: f
     })
 }
 

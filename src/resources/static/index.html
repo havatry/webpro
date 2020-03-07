@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/index.css">
     <script src="js/bootstrap-paginator.min.js"></script>
 </head>
-<body style="background-color: #000">
+<body style="background-color: #000" onload="init()">
 <!-- 导航栏 -->
 <nav class="navbar navbar-inverse" role="navigation">
     <div class="container-fluid">
@@ -405,15 +405,25 @@
         var doc = document.getElementById("handle_analyze");
 		var formData = new FormData(doc);
 		RequestPost("http://localhost:8080/analyze/handle", formData, function (data) {
-            var tableDom = document.getElementById('tab');
-            taskQueueUpdate(tableDom, data);
-            renderPagination($('#pagination'), 10);
+            taskQueueUpdate(document.getElementById('tab'), data);
         });
         // 擦除数据
         $('#handle').modal('hide');
         $('#handle').on('hidden.bs.modal', function () {
             doc.reset();
         })
+    }
+
+    function init() {
+        RequestGet("http://localhost:8080/fetch", {"pageNo": 0}, function (data) {
+            taskQueueUpdate(document.getElementById('tab'), data);
+            var total = Math.ceil(data['total'] / 10);
+            renderPagination($('#pagination'), total, function (event, oldPage, newPage) {
+                RequestGet("http://localhost:8080/fetch", {"pageNo": newPage - 1}, function (data) {
+                    taskQueueUpdate(document.getElementById('tab'), data);
+                })
+            });
+        });
     }
 
     function submit_onestage() {
