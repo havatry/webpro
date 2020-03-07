@@ -1,0 +1,48 @@
+// 依据返回结果处理dom元素
+function taskQueueUpdate(tableDom, data) {
+    /**
+     * {"data":[{"algorithm":"algorithm","date":"2020-03-07 23:52:01","id":74,"status":"在执行中","type":"手动分析"},{"algorithm":"algorithm","date":"2020-03-07 21:08:25","id":73,"status":"映射成功","type":"手动分析"},{"algorithm":"algorithm","date":"2020-03-07 21:07:57","id":72,"status":"映射成功","type":"手动分析"},{"algorithm":"algorithm","date":"2020-03-07 21:07:25","id":71,"status":"映射成功","type":"手动分析"},{"algorithm":"algorithm","date":"2020-03-07 20:54:58","id":70,"status":"映射成功","type":"手动分析"},{"algorithm":"algorithm","date":"2020-03-07 20:54:34","id":69,"status":"映射成功","type":"手动分析"}],"total":6}
+     */
+    var tab = '';
+    var header = '<tr style="color: rgb(209, 73, 78);"><td>时间</td><td>类型</td>' +
+        '<td>状态</td><td>结果</td><td>操作</td></tr>';
+    // 填充数据
+    var content = data['data'];
+    tab += header;
+    for (var i = 0; i < content.length; i++) {
+        var line = templateTr().format(content[i].date, content[i].type, statusLabel(content[i].status), content.status, )
+    }
+}
+
+function templateTr() {
+    return '<tr><td>{0}</td><td>{1}</td><td><span class="{2}">{3}</span></td><td><button class="{4}" style="color: black" {5}>查看</button>' +
+        '<button class="{6}" style="color: black">下载</button></td><td><button class="btn btn-danger">删除</button><button class="btn btn-success">执行</button></td></tr>';
+}
+
+function statusLabel(status) {
+    switch (status) {
+        case '在执行中':
+            return 'label label-default';
+        case '执行完成':
+            return 'label label-primary';
+        case '映射成功':
+            return 'label label-success';
+        default:
+            return 'label label-danger';
+    }
+}
+
+String.prototype.format = function() {
+    if (arguments.length == 0) return this;
+    var param = arguments[0];
+    var s = this;
+    if (typeof(param) == 'object') {
+        for (var key in param)
+            s = s.replace(new RegExp("\\{" + key + "\\}", "g"), param[key]);
+        return s;
+    } else {
+        for (var i = 0; i < arguments.length; i++)
+            s = s.replace(new RegExp("\\{" + i + "\\}", "g"), arguments[i]);
+        return s;
+    }
+}

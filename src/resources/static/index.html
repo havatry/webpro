@@ -7,6 +7,8 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <script src="js/commicate.js"></script>
+    <link rel="stylesheet" href="css/index.css">
     <style type="text/css">
         .pagination>li>a, .pagination>li>span, .pagination>.disabled>a {
             background-color: rgb(30,41,61);
@@ -39,15 +41,15 @@
 <div class="jumbotron" style="height: 575px;background-color: rgb(30,41,61);color: #fff;margin-top: -22px;font-size: 16px;margin-bottom: 0px">
     <div class="container">
         <h3 style="margin-left: -50px;margin-top: -30px;margin-bottom: 20px;color: rgb(36,169,225)">任务队列</h3>
-        <table style="width: 100%;">
-            <tr style="border-bottom-style: solid;border-bottom-color: rgb(225,238,210);border-bottom-width: 1px;color: rgb(209,73,78);">
+        <table style="width: 100%;" id="tab">
+            <tr style="color: rgb(209,73,78);">
                 <td>时间</td>
                 <td>类型</td>
                 <td>状态</td>
                 <td>结果</td>
                 <td>操作</td>
             </tr>
-            <tr style="border-bottom-style: solid;border-bottom-color: rgb(225,238,210);border-bottom-width: 1px;height: 40px">
+            <tr>
                 <td>2020-02-27 10:13:33</td>    
                 <td>一阶段实验</td>
                 <td><span class="label label-default">在执行中</span></td>
@@ -60,7 +62,7 @@
                     <button class="btn btn-success">执行</button>
                 </td>
             </tr>
-            <tr style="border-bottom-style: solid;border-bottom-color: rgb(225,238,210);border-bottom-width: 1px;height: 40px">
+            <tr>
                 <td>2020-02-27 10:13:06</td>    
                 <td>一阶段实验</td>
                 <td><span class="label label-default">在执行中</span></td>
@@ -73,7 +75,7 @@
                     <button class="btn btn-success">执行</button>
                 </td>
             </tr>
-            <tr style="border-bottom-style: solid;border-bottom-color: rgb(225,238,210);border-bottom-width: 1px;height: 40px">
+            <tr>
                 <td>2020-02-27 10:12:26</td>    
                 <td>一阶段实验</td>
                 <td><span class="label label-default">在执行中</span></td>
@@ -86,7 +88,7 @@
                     <button class="btn btn-success">执行</button>
                 </td>
             </tr>
-            <tr style="border-bottom-style: solid;border-bottom-color: rgb(225,238,210);border-bottom-width: 1px;height: 40px">
+            <tr>
                 <td>2020-02-26 22:20:31</td>    
                 <td>二阶段协调实验</td>
                 <td><span class="label label-primary">执行完成</span></td>
@@ -99,7 +101,7 @@
                     <button class="btn btn-success">执行</button>
                 </td>
             </tr>
-            <tr style="border-bottom-style: solid;border-bottom-color: rgb(225,238,210);border-bottom-width: 1px;height: 40px">
+            <tr>
                 <td>2020-02-27 21:13:38</td>    
                 <td>二阶段协调实验</td>
                 <td><span class="label label-primary">执行完成</span></td>
@@ -112,7 +114,7 @@
                     <button class="btn btn-success">执行</button>
                 </td>
             </tr>
-            <tr style="border-bottom-style: solid;border-bottom-color: rgb(225,238,210);border-bottom-width: 1px;height: 40px">
+            <tr>
                 <td>2020-02-26 20:17:23</td>    
                 <td>一阶段实验</td>
                 <td><span class="label label-primary">执行完成</span></td>
@@ -125,7 +127,7 @@
                     <button class="btn btn-success">执行</button>
                 </td>
             </tr>
-            <tr style="border-bottom-style: solid;border-bottom-color: rgb(225,238,210);border-bottom-width: 1px;height: 40px">
+            <tr>
                 <td>2020-02-26 19:02:03</td>    
                 <td>一阶段实验</td>
                 <td><span class="label label-primary">执行完成</span></td>
@@ -138,7 +140,7 @@
                     <button class="btn btn-success">执行</button>
                 </td>
             </tr>
-            <tr style="border-bottom-style: solid;border-bottom-color: rgb(225,238,210);border-bottom-width: 1px;height: 40px">
+            <tr>
                 <td>2020-02-26 16:26:30</td>    
                 <td>手动分析</td>
                 <td><span class="label label-danger">映射失败</span></td>
@@ -150,7 +152,7 @@
                     <button class="btn btn-success">执行</button>
                 </td>
             </tr>
-            <tr style="border-bottom-style: solid;border-bottom-color: rgb(225,238,210);border-bottom-width: 1px;height: 40px">
+            <tr>
                 <td>2020-02-26 14:28:43</td>    
                 <td>手动分析</td>
                 <td><span class="label label-success">映射成功</span></td>
@@ -162,7 +164,7 @@
                     <button class="btn btn-success">执行</button>
                 </td>
             </tr>
-             <tr style="border-bottom-style: solid;border-bottom-color: rgb(225,238,210);border-bottom-width: 1px;height: 40px">
+             <tr>
                 <td>2020-02-26 14:19:23</td>    
                 <td>手动分析</td>
                 <td><span class="label label-success">映射成功</span></td>
@@ -175,7 +177,7 @@
                 </td>
             </tr>
         </table>
-        <ul class="pagination" style="float: right;margin-top: 30px;">
+        <ul class="pagination">
             <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
             <li class="page-item active"><a class="page-link" href="#">1</a></li>
             <li class="page-item"><a class="page-link" href="#">2</a></li>
@@ -190,7 +192,7 @@
 </div>
 
 <!-- 手动分析模态框 -->
-<div class="modal fade" id="handle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="handle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -202,7 +204,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form" id="handle_analyze" action="http://localhost:8080/analyze/handle" method="post"
+                <form class="form-horizontal" role="form" id="handle_analyze" method="post"
                       enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="control-label col-md-5">使用算法</label>
@@ -403,23 +405,16 @@
 <!-- 处理函数 -->
 <script type="text/javascript">
     function submit_handle() {
-		// 使用AJAX请求
-		var formData = new FormData(document.getElementById("handle_analyze"));
-		$.ajax({
-			type: "POST",
-			url: "http://localhost:8080/analyze/handle",
-			data: formData,
-			dataType: "json",
-			contentType: false,
-			processData: false,
-			xhrFields: {withCredentials: true},
-			success: function(data){
-				alert(JSON.stringify(data));
-			},
-			error: function(e){
-				alert(JSON.stringify(e));
-			}
-		});
+        var doc = document.getElementById("handle_analyze");
+		var formData = new FormData(doc);
+		RequestPost("http://localhost:8080/analyze/handle", formData, function (data) {
+            alert(JSON.stringify(data));
+        });
+        // 擦除数据
+        $('#handle').modal('hide');
+        $('#handle').on('hidden.bs.modal', function () {
+            doc.reset();
+        })
     }
 
     function submit_onestage() {
