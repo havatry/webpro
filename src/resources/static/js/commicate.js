@@ -15,11 +15,10 @@ function RequestPost(url, data, func_succ) {
     });
 }
 
-function RequestGet(url, data, func_succ) {
+function RequestGet(url, func_succ) {
     $.ajax({
         type: "GET",
         url: url,
-        data: data,
         dataType: "json",
         contentType: false,
         processData: false,

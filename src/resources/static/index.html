@@ -2,15 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
     <title>虚拟网络映射系统</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
-    <script src="js/commicate.js"></script>
-    <script src="js/domprocess.js"></script>
-    <link rel="stylesheet" href="css/index.css">
     <script src="js/bootstrap-paginator.min.js"></script>
+    <script type="text/javascript">
+        document.write("<script type='text/javascript' src='js/commicate.js?time="+new Date().getTime()+"'></s"+"cript>");
+        document.write("<script type='text/javascript' src='js/domprocess.js?time="+new Date().getTime()+"'></s"+"cript>");
+        document.write("<link rel='stylesheet' href='css/index.css?time=" + new Date().getTime() + "'/>");
+    </script>
 </head>
 <body style="background-color: #000" onload="init()">
 <!-- 导航栏 -->
@@ -405,6 +408,7 @@
         var doc = document.getElementById("handle_analyze");
 		var formData = new FormData(doc);
 		RequestPost("http://localhost:8080/analyze/handle", formData, function (data) {
+		    console.log("post: " + JSON.stringify(data));
             taskQueueUpdate(document.getElementById('tab'), data);
         });
         // 擦除数据
@@ -415,11 +419,13 @@
     }
 
     function init() {
-        RequestGet("http://localhost:8080/fetch", {"pageNo": 0}, function (data) {
+        RequestGet('http://localhost:8080/fetch?pageNo=0', function (data) {
+            console.log(JSON.stringify(data));
             taskQueueUpdate(document.getElementById('tab'), data);
             var total = Math.ceil(data['total'] / 10);
             renderPagination($('#pagination'), total, function (event, oldPage, newPage) {
-                RequestGet("http://localhost:8080/fetch", {"pageNo": newPage - 1}, function (data) {
+                RequestGet('http://localhost:8080/fetch?pageNo='+(newPage - 1), function (data) {
+                    console.log(JSON.stringify(data));
                     taskQueueUpdate(document.getElementById('tab'), data);
                 })
             });

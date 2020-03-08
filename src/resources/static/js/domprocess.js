@@ -21,7 +21,7 @@ function taskQueueUpdate(tableDom, data) {
 }
 
 // 分页插件
-function renderPagination(jqueryObj, total) {
+function renderPagination(jqueryObj, total, f) {
     jqueryObj.bootstrapPaginator({
         currentPage: 1,
         totalPages: total,

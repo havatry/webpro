@@ -15,8 +15,8 @@ import java.io.PrintWriter;
 /**
  * 用于分页插件获取数据库数据
  */
-@WebServlet("/fecth")
-public class FecthData extends HttpServlet{
+@WebServlet("/fetch")
+public class FetchData extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uid = Process.parseUid(req, resp);
