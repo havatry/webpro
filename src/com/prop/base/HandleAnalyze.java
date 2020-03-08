@@ -48,21 +48,21 @@ public class HandleAnalyze extends HttpServlet{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String uid = Process.parseUid(req, resp);
         String algorithm = (String) map.get("algorithm");
+        int current_id = 0;
         try {
-            requestDataBase.insertRequest("手动分析", algorithm, uid, sdf.format(new Date()));
+            current_id = requestDataBase.insertRequest("手动分析", algorithm, uid, sdf.format(new Date()));
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        Page page = Process.parsePage(uid, 0);
+//        Page page = Process.parsePage(uid, 0);
         Process.setResp(resp, req.getHeader("origin"));
-        PrintWriter out = resp.getWriter();
-        out.println(JSON.toJSONString(page));
-        out.close();
+//        PrintWriter out = resp.getWriter();
+//        out.println();
+//        out.close();
 
         // 将文件写入本地
-        int current_id = page.getData().get(0).getId();
         String uploadPath = req.getServletContext().getRealPath("./") + File.separator + UPLOAD_DIR;
         String targetFile = uploadFile((FileItem) map.get("file"), uploadPath);
         vnreal.algorithms.myRCRGF.util.Constants.WRITE_FILE =

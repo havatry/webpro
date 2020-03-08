@@ -23,20 +23,23 @@ public class RequestDataBase {
         return DriverManager.getConnection(url, user, password);
     }
 
-    // 插入前端请求
-    public boolean insertRequest(String type, String algorithm, String uid, String date) throws SQLException, ClassNotFoundException {
+    // 插入前端请求并返回自增id
+    public int insertRequest(String type, String algorithm, String uid, String date) throws SQLException, ClassNotFoundException {
         String sql = "insert into request(type, status, algorithm, create_time, operator) values (?, ?, ?, ?, ?)";
         Connection connection = connect();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, type);
         preparedStatement.setString(2, "在执行中");
         preparedStatement.setString(3, algorithm);
         preparedStatement.setString(4, date);
         preparedStatement.setString(5, uid);
-        boolean succ = preparedStatement.executeUpdate() > 0;
+        preparedStatement.executeUpdate();
+        ResultSet resultSet = preparedStatement.getGeneratedKeys();
+        resultSet.next();
+        int id = resultSet.getInt(1);
         preparedStatement.close();
         connection.close();
-        return succ;
+        return id;
     }
 
     // 将请求的状态改成指定的状态，这在后台完成了映射后去更新数据库

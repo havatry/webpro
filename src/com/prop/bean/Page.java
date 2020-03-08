@@ -8,6 +8,7 @@ import java.util.List;
 public class Page {
     private int total; // 总记录数
     private List<Record> data; // SIZE条记录
+    private boolean autoFlush; // 是否前端自动刷新
 
     public int getTotal() {
         return total;
@@ -23,5 +24,13 @@ public class Page {
 
     public void setData(List<Record> data) {
         this.data = data;
+    }
+
+    public boolean isAutoFlush() {
+        return autoFlush;
+    }
+
+    public void setAutoFlush(boolean autoFlush) {
+        this.autoFlush = autoFlush;
     }
 }

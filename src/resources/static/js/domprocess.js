@@ -12,8 +12,9 @@ function taskQueueUpdate(tableDom, data) {
     tab += header;
     for (var i = 0; i < content.length; i++) {
         var line = templateTr().format(content[i].date, content[i].type, content[i].algorithm, statusLabel(content[i].status), content[i].status,
-            content[i].status == '在执行中' ? 'btn btn-secondary disabled' : 'btn btn-primary',
-            content[i].type == '手动分析' ? 'display:none' : '', content[i].status == '在执行中' ? 'btn btn-secondary disabled' : 'btn btn-primary');
+            (content[i].status == '在执行中' || content[i].status == '请求异常') ? 'btn btn-secondary disabled' : 'btn btn-primary',
+            content[i].type == '手动分析' ? 'display:none' : '', (content[i].status == '在执行中' || content[i].status == '请求异常')
+                ? 'btn btn-secondary disabled' : 'btn btn-primary');
         tab += line;
     }
     // 修改内容
@@ -26,7 +27,7 @@ function renderPagination(jqueryObj, total, f) {
         currentPage: 1,
         totalPages: total,
         size: 'normal',
-        bootstrapMajorVersion: 4,
+        bootstrapMajorVersion: 3,
         align: 'right',
         numberOfPages: 10,
         itemTexts: function (type, page, current, f) {
