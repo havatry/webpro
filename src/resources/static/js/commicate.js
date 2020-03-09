@@ -1,5 +1,5 @@
 // 用于提交ajax的请求
-function RequestPost(url, data, func) {
+function RequestPostVoid(url, data, func) {
     $.ajax({
         type: "POST",
         url: url,
@@ -9,6 +9,22 @@ function RequestPost(url, data, func) {
         processData: false,
         xhrFields: {withCredentials: true},
         error: func
+    });
+}
+
+function RequestPost(url, data, func) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        dataType: "json",
+        contentType: false,
+        processData: false,
+        xhrFields: {withCredentials: true},
+        success: func,
+        error: function (data) {
+            alert(JSON.stringify(data));
+        }
     });
 }
 

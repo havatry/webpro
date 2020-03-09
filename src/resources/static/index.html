@@ -409,7 +409,7 @@
     function submit_handle() {
         var doc = document.getElementById("handle_analyze");
 		var formData = new FormData(doc);
-		RequestPost("http://localhost:8080/analyze/handle", formData, function () {
+		RequestPostVoid("http://localhost:8080/analyze/handle", formData, function () {
 		    flush(true);
         });
         // 擦除数据
@@ -451,6 +451,14 @@
                 }
             })
         }
+    }
+
+    // 删除id对应的请求
+    function deleteRequest(id) {
+        RequestPost('http://localhost:8080/remove', {id: id}, function (data) {
+            // data中有msg字段
+            alert(data['msg']);
+        });
     }
 
     function submit_onestage() {
