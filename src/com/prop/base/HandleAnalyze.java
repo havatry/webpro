@@ -48,6 +48,7 @@ public class HandleAnalyze extends HttpServlet{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String uid = Process.parseUid(req, resp);
         String algorithm = (String) map.get("algorithm");
+        // 插入请求到数据库
         int current_id = 0;
         try {
             current_id = requestDataBase.insertRequest("手动分析", algorithm, uid, sdf.format(new Date()));
@@ -56,15 +57,18 @@ public class HandleAnalyze extends HttpServlet{
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-//        Page page = Process.parsePage(uid, 0);
         Process.setResp(resp, req.getHeader("origin"));
-//        PrintWriter out = resp.getWriter();
-//        out.println();
-//        out.close();
-
         // 将文件写入本地
-        String uploadPath = req.getServletContext().getRealPath("./") + File.separator + UPLOAD_DIR;
+        String uploadPath = req.getServletContext().getRealPath("./") + File.separator + UPLOAD_DIR + File.separator + String.valueOf(current_id);
         String targetFile = uploadFile((FileItem) map.get("file"), uploadPath);
+        // 更新请求的执行参数
+        try {
+            requestDataBase.updateRequestArguments(current_id, "algorithm="+algorithm+"&file="+targetFile);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         vnreal.algorithms.myRCRGF.util.Constants.WRITE_FILE =
                 (vnreal.algorithms.myAEF.util.Constants.resultDir = "results/data" + File.separator + String.valueOf(current_id) + File.separator);
         // 开启线程执行任务, 返回给前端一个报文
@@ -178,7 +182,7 @@ public class HandleAnalyze extends HttpServlet{
     private String uploadFile(FileItem item, String uploadPath) {
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
-            uploadDir.mkdir();
+            uploadDir.mkdirs();
         }
         // 解析其中的文件
         String fileName = new File(item.getName()).getName();

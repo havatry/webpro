@@ -52,6 +52,16 @@ public class RequestDataBase {
         return preparedStatement.executeUpdate() > 0;
     }
 
+    // 设置参数
+    public boolean updateRequestArguments(Integer id, String args) throws SQLException, ClassNotFoundException {
+        String sql = "update request set arguments = ? where id = ?";
+        Connection connection = connect();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, args);
+        preparedStatement.setInt(2, id);
+        return preparedStatement.executeUpdate() > 0;
+    }
+
     // 获取用户uid的所有请求 并且按照时间降序 取出前SIZE条记录
     public Page queryAll(String uid, int offset) throws SQLException, ClassNotFoundException {
         String sql = "select * from request where operator = ? ORDER BY create_time DESC limit ?, ?";
