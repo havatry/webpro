@@ -35,7 +35,7 @@ import java.util.*;
  */
 @WebServlet("/analyze/handle")
 public class HandleAnalyze extends HttpServlet{
-    private static final String UPLOAD_DIR = "upload";
+    protected static final String UPLOAD_DIR = "upload";
     private static final int MAX_FILE_SIZE = 1024 * 1024 * 100; // 100MB
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 120; // 120MB
     private static final int MEMORY_THRESHOLD = 1024 * 1024 * 30; // 30MB

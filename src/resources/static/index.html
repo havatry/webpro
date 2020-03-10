@@ -458,6 +458,7 @@
         RequestPost('http://localhost:8080/remove', {id: id}, function (data) {
             // data中有msg字段
             alert(data['msg']);
+            flush(true);
         });
     }
 

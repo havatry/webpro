@@ -18,8 +18,8 @@ function RequestPost(url, data, func) {
         url: url,
         data: data,
         dataType: "json",
-        contentType: false,
-        processData: false,
+        // contentType: false,
+        // processData: false,
         xhrFields: {withCredentials: true},
         success: func,
         error: function (data) {
