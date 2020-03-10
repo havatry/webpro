@@ -14,7 +14,7 @@ function taskQueueUpdate(tableDom, data) {
         var line = templateTr().format(content[i].date, content[i].type, content[i].algorithm, statusLabel(content[i].status), content[i].status,
             (content[i].status == '在执行中' || content[i].status == '请求异常') ? 'btn btn-secondary disabled' : 'btn btn-primary',
             content[i].type == '手动分析' ? 'display:none' : '', (content[i].status == '在执行中' || content[i].status == '请求异常')
-                ? 'btn btn-secondary disabled' : 'btn btn-primary', content[i].id);
+                ? 'btn btn-secondary disabled' : 'btn btn-primary', content[i].id, content[i].id);
         tab += line;
     }
     // 修改内容
@@ -50,7 +50,8 @@ function renderPagination(jqueryObj, total, f) {
 
 function templateTr() {
     return '<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><span class="{3}">{4}</span></td><td><button class="{5}" style="color: black;{6}">查看</button>' +
-        '<button class="{7}" style="color: black">下载</button></td><td><button class="btn btn-danger" onclick="deleteRequest({8})">删除</button></td></tr>';
+        '<button class="{7}" style="color: black">下载</button></td><td><button class="btn btn-danger" onclick="deleteRequest({8})">删除</button>' +
+        '<button class="btn btn-success" onclick="getArguments({9})">参数</button></td></tr>';
 }
 
 function statusLabel(status) {

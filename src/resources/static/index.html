@@ -455,11 +455,22 @@
 
     // 删除id对应的请求
     function deleteRequest(id) {
-        RequestPost('http://localhost:8080/remove', {id: id}, function (data) {
+        RequestPostX('http://localhost:8080/remove', {id: id}, function (data) {
             // data中有msg字段
             alert(data['msg']);
             flush(true);
         });
+    }
+
+    // 获取请求的参数
+    function getArguments(id) {
+        RequestGetX('http://localhost:8080/arguments', {id: id}, function (data) {
+            if (data['msg'] != null) {
+                alert(data['msg']);
+            } else {
+                alert(JSON.stringify(data));
+            }
+        })
     }
 
     function submit_onestage() {

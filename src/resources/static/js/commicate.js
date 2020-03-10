@@ -18,8 +18,22 @@ function RequestPost(url, data, func) {
         url: url,
         data: data,
         dataType: "json",
-        // contentType: false,
-        // processData: false,
+        contentType: false,
+        processData: false,
+        xhrFields: {withCredentials: true},
+        success: func,
+        error: function (data) {
+            alert(JSON.stringify(data));
+        }
+    });
+}
+
+function RequestPostX(url, data, func) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        dataType: "json",
         xhrFields: {withCredentials: true},
         success: func,
         error: function (data) {
@@ -35,6 +49,20 @@ function RequestGet(url, func_succ) {
         dataType: "json",
         contentType: false,
         processData: false,
+        xhrFields: {withCredentials: true},
+        success: func_succ,
+        error: function(e){
+            alert(JSON.stringify(e));
+        }
+    });
+}
+
+function RequestGetX(url, data, func_succ) {
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: data,
+        dataType: "json",
         xhrFields: {withCredentials: true},
         success: func_succ,
         error: function(e){

@@ -5,7 +5,6 @@ import com.prop.bean.Record;
 import com.prop.util.Constant;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +49,17 @@ public class RequestDataBase {
         preparedStatement.setString(1, status);
         preparedStatement.setInt(2, id);
         return preparedStatement.executeUpdate() > 0;
+    }
+
+    // 获取请求的执行参数
+    public String getArguments(Integer id) throws SQLException, ClassNotFoundException {
+        String sql = "select arguments from request where id = ?";
+        Connection connection = connect();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        return resultSet.getString("arguments");
     }
 
     // 设置参数

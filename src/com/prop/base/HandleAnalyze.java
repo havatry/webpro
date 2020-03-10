@@ -63,7 +63,7 @@ public class HandleAnalyze extends HttpServlet{
         String targetFile = uploadFile((FileItem) map.get("file"), uploadPath);
         // 更新请求的执行参数
         try {
-            requestDataBase.updateRequestArguments(current_id, "algorithm="+algorithm+"&file="+targetFile);
+            requestDataBase.updateRequestArguments(current_id, "algorithm="+algorithm+"&file="+((FileItem)map.get("file")).getName());
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
