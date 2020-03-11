@@ -1,7 +1,7 @@
 package com.prop.test;
 
 import com.alibaba.fastjson.JSON;
-import com.prop.base.RequestDataBase;
+import com.prop.util.RequestDataBase;
 import com.prop.bean.Record;
 import org.junit.Test;
 

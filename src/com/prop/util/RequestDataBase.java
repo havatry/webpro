@@ -1,8 +1,7 @@
-package com.prop.base;
+package com.prop.util;
 
 import com.prop.bean.Page;
 import com.prop.bean.Record;
-import com.prop.util.Constant;
 
 import java.io.FileInputStream;
 import java.io.IOException;

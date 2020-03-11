@@ -2,6 +2,7 @@ package com.prop.base;
 
 import com.alibaba.fastjson.JSON;
 import com.prop.util.Process;
+import com.prop.util.RequestDataBase;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

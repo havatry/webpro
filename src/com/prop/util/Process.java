@@ -1,6 +1,5 @@
 package com.prop.util;
 
-import com.prop.base.RequestDataBase;
 import com.prop.bean.Page;
 import com.prop.bean.Record;
 
