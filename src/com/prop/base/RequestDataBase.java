@@ -4,18 +4,34 @@ import com.prop.bean.Page;
 import com.prop.bean.Record;
 import com.prop.util.Constant;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * 负责与数据库通信
  */
 public class RequestDataBase {
-    private static final String driver = "com.mysql.cj.jdbc.Driver";
-    private static final String url = "jdbc:mysql://175.24.101.52:3306/test?serverTimezone=GMT%2B8";
-    private static final String user = "root";
-    private static final String password = "~Ir3M}q7.,U4&VI1";
+    private static final String driver;
+    private static final String url;
+    private static final String user;
+    private static final String password;
+
+    static {
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileInputStream("src/resources/config/jdbc.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        driver = properties.getProperty("jdbc.driver");
+        url = properties.getProperty("jdbc.url");
+        user = properties.getProperty("jdbc.user", "root");
+        password = properties.getProperty("jdbc.password");
+    }
 
     private Connection connect() throws ClassNotFoundException, SQLException {
         Class.forName(driver);
