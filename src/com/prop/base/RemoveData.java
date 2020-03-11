@@ -33,6 +33,8 @@ public class RemoveData extends HttpServlet{
                 f.delete();
             }
             target.delete();
+            // 删除压缩包
+            new File("results/data/"+id+".zip").delete();
             RequestDataBase requestDataBase = new RequestDataBase();
             try {
                 // 删除数据库中的记录
