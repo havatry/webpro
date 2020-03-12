@@ -3,6 +3,7 @@ package com.prop.util;
 import com.prop.bean.Page;
 import com.prop.bean.Record;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
@@ -22,7 +23,7 @@ public class RequestDataBase {
     static {
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream("src/resources/config/jdbc.properties"));
+            properties.load(new FileInputStream("config/jdbc.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }

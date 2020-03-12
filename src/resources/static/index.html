@@ -422,6 +422,9 @@
     function init() {
         RequestGet('http://localhost:8080/fetch?pageNo=0', function (data) {
             console.log(JSON.stringify(data));
+            if (data['data'].length == 0) {
+                return;
+            }
             taskQueueUpdate(document.getElementById('tab'), data);
             flush(data['autoFlush']);
             var total = Math.ceil(data['total'] / 10);
@@ -471,6 +474,14 @@
                 alert(JSON.stringify(data));
             }
         })
+    }
+
+    // 下载结果
+    function download(id) {
+        var url = "http://localhost:8080/download";
+        var form = $("<form></form>").attr("action", url).attr("method", "post");
+        form.append($("<input></input>").attr("type", "hidden").attr("name", "id").attr("value", id));
+        form.appendTo('body').submit().remove();
     }
 
     function submit_onestage() {

@@ -9,13 +9,17 @@ function taskQueueUpdate(tableDom, data) {
         '<td>状态</td><td>结果</td><td>操作</td></tr>';
     // 填充数据
     var content = data['data'];
-    tab += header;
-    for (var i = 0; i < content.length; i++) {
-        var line = templateTr().format(content[i].date, content[i].type, content[i].algorithm, statusLabel(content[i].status), content[i].status,
-            (content[i].status == '在执行中' || content[i].status == '请求异常') ? 'btn btn-secondary disabled' : 'btn btn-primary',
-            content[i].type == '手动分析' ? 'display:none' : '', (content[i].status == '在执行中' || content[i].status == '请求异常')
-                ? 'btn btn-secondary disabled' : 'btn btn-primary', content[i].id, content[i].id);
-        tab += line;
+    if (content.length == 0) {
+        tab = '<h3>暂时没有历史数据</h3>';
+    } else {
+        tab += header;
+        for (var i = 0; i < content.length; i++) {
+            var line = templateTr().format(content[i].date, content[i].type, content[i].algorithm, statusLabel(content[i].status), content[i].status,
+                (content[i].status == '在执行中' || content[i].status == '请求异常') ? 'btn btn-secondary disabled' : 'btn btn-primary',
+                content[i].type == '手动分析' ? 'display:none' : '', content[i].id, (content[i].status == '在执行中' || content[i].status == '请求异常')
+                    ? 'btn btn-secondary disabled' : 'btn btn-primary', content[i].id, content[i].id);
+            tab += line;
+        }
     }
     // 修改内容
     tableDom.innerHTML = tab;
@@ -50,8 +54,8 @@ function renderPagination(jqueryObj, total, f) {
 
 function templateTr() {
     return '<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><span class="{3}">{4}</span></td><td><button class="{5}" style="color: black;{6}">查看</button>' +
-        '<button class="{7}" style="color: black">下载</button></td><td><button class="btn btn-danger" onclick="deleteRequest({8})">删除</button>' +
-        '<button class="btn btn-success" onclick="getArguments({9})">参数</button></td></tr>';
+        '<button onclick="download({7})" class="{8}" style="color: black">下载</button></td><td><button class="btn btn-danger" onclick="deleteRequest({9})">删除</button>' +
+        '<button class="btn btn-success" onclick="getArguments({10})">参数</button></td></tr>';
 }
 
 function statusLabel(status) {
