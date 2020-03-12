@@ -422,12 +422,9 @@
     function init() {
         RequestGet('http://localhost:8080/fetch?pageNo=0', function (data) {
             console.log(JSON.stringify(data));
-            if (data['data'].length == 0) {
-                return;
-            }
             taskQueueUpdate(document.getElementById('tab'), data);
             flush(data['autoFlush']);
-            var total = Math.ceil(data['total'] / 10);
+            var total = Math.max(Math.ceil(data['total'] / 10), 1);
             renderPagination($('#pagination'), total, function (event, oldPage, newPage) {
                 RequestGet('http://localhost:8080/fetch?pageNo='+(newPage - 1), function (data) {
                     console.log(JSON.stringify(data));

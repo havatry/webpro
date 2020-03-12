@@ -10,7 +10,7 @@ function taskQueueUpdate(tableDom, data) {
     // 填充数据
     var content = data['data'];
     if (content.length == 0) {
-        tab = '<h3>暂时没有历史数据</h3>';
+        tab = '<h3 style="text-align:center; color:rgb(186, 85, 211); margin-top: 100px; margin-bottom: 100px">暂时没有历史数据</h3>';
     } else {
         tab += header;
         for (var i = 0; i < content.length; i++) {
