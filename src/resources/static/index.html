@@ -196,6 +196,7 @@
 <!-- 处理函数 -->
 <script type="text/javascript">
     var interval_handle; // 全局定时器句柄
+    var tabDom = document.getElementById('tab');
     function submit_handle() {
         var doc = document.getElementById("handle_analyze");
 		var formData = new FormData(doc);
@@ -210,13 +211,13 @@
     }
 
     function init() {
-        RequestGet('http://localhost:8080/fetch?pageNo=0', function (data) {
+        RequestGetPage(tabDom, 'http://localhost:8080/fetch?pageNo=0', function (data) {
             console.log(JSON.stringify(data));
             taskQueueUpdate(document.getElementById('tab'), data);
             flush(data['autoFlush']);
             var total = Math.max(Math.ceil(data['total'] / 10), 1);
             renderPagination($('#pagination'), total, function (event, oldPage, newPage) {
-                RequestGet('http://localhost:8080/fetch?pageNo='+(newPage - 1), function (data) {
+                RequestGetPage(tabDom, 'http://localhost:8080/fetch?pageNo='+(newPage - 1), function (data) {
                     console.log(JSON.stringify(data));
                     taskQueueUpdate(document.getElementById('tab'), data);
                     flush(data['autoFlush']);
@@ -230,7 +231,7 @@
         if (f) {
             // 获取当前页
             var current = $('#pagination').bootstrapPaginator("getPages")['current']
-            RequestGet('http://localhost:8080/fetch?pageNo=' + (current - 1), function (data) {
+            RequestGetPage(tabDom, 'http://localhost:8080/fetch?pageNo=' + (current - 1), function (data) {
                 console.log(JSON.stringify(data));
                 taskQueueUpdate(document.getElementById('tab'), data);
                 if (data['autoFlush']) {
