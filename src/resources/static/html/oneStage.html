@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<div class="modal fade" id="experiment1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    一阶段实验
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="onestage_analyze" action="/analyze/onestage" method="post">
+                    <div class="form-group">
+                        <label class="control-label col-md-5">对比算法</label>
+                        <div class="col-md-7">
+                            <select name="algorithms" multiple="multiple">
+                                <option value="RCRGF">RCRGF</option>
+                                <option value="Greedy">Greedy</option>
+                                <option value="subgrapIsomorphism">subgrapIsomorphism</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">底层节点</label>
+                        <div class="col-md-7">
+                            <input type="text" placeholder="默认是100-500-10"
+                                   name="nodes" id="nodes">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">节点比例</label>
+                        <div class="col-md-7">
+                            <input type="text" placeholder="默认是0.1"
+                                   name="nodeRatio" id="nodeRatio">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">资源比例</label>
+                        <div class="col-md-7">
+                            <input type="text" placeholder="默认是0.01"
+                                   name="resourceRatio" id="resourceRatio">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="submit_onestage()">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+</html>

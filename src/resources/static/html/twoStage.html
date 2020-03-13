@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<div class="modal fade" id="experiment2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    二阶段协调实验
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="twostage_analyze" action="/analyze/twostage" method="post">
+                    <div class="form-group">
+                        <label class="control-label col-md-5">对比算法</label>
+                        <div class="col-md-7">
+                            <select name="algorithms" multiple="multiple">
+                                <option value="AEF_Advance">AEF_Advance</option>
+                                <option value="AEF_Baseline">AEF_Baseline</option>
+                                <option value="D-ViNE_SP">D-ViNE_SP</option>
+                                <option value="subgrapIsomorphism">subgrapIsomorphism</option>
+                                <option value="NRM">NRM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">底层资源</label>
+                        <div class="col-md-7">
+                            <input type="text" placeholder="默认是50-70"
+                                   name="resource" id="resource">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">底层alpha</label>
+                        <div class="col-md-7">
+                            <input type="text" placeholder="默认是0.5"
+                                   name="alpha" id="alpha">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">底层beta</label>
+                        <div class="col-md-7">
+                            <input type="text" placeholder="默认是0.1"
+                                   name="beta" id="beta">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">请求到达因子</label>
+                        <div class="col-md-7">
+                            <input type="text" placeholder="默认是1/10"
+                                   name="arrive" id="arrive">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">请求持久因子</label>
+                        <div class="col-md-7">
+                            <input type="text" placeholder="默认是1/1000"
+                                   name="presever" id="presever">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">仿真时间</label>
+                        <div class="col-md-7">
+                            <input type="text" placeholder="默认是2000"
+                                   name="time" id="time">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="submit_twostage()">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+</html>

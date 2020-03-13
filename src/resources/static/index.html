@@ -13,169 +13,160 @@
         document.write("<script type='text/javascript' src='js/commicate.js?time="+new Date().getTime()+"'></s"+"cript>");
         document.write("<script type='text/javascript' src='js/domprocess.js?time="+new Date().getTime()+"'></s"+"cript>");
         document.write("<link rel='stylesheet' href='css/index.css?time=" + new Date().getTime() + "'/>");
+        // 引入组件
+        $(document).ready(function () {
+            $('#navigate').load('html/navigate.html');
+            $('#content').load('html/content.html');
+            $('#handleAnalyze').load('html/handleAnalyze.html');
+            $('#oneStage').load('html/oneStage.html');
+            $('#twoStage').load('html/twoStage.html');
+            $('#compareResult').load('html/compareResult.html');
+            $('#footer').load('html/footer.html');
+        })
     </script>
 </head>
 <body style="background-color: #000" onload="init()">
 <!-- 导航栏 -->
-<nav class="navbar navbar-inverse" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header col-md-2" data-toggle="modal" data-target="#handle">
-            <a class="navbar-brand" href="#">手动分析</a>
-        </div>
-        <div class="navbar-header col-md-2" data-toggle="modal" data-target="#experiment1">
-            <a class="navbar-brand" href="#">一阶段实验</a>
-        </div>
-        <div class="navbar-header col-md-2" data-toggle="modal" data-target="#experiment2">
-            <a class="navbar-brand" href="#">二阶段协调实验</a>
-        </div>
-        <form class="navbar-form navbar-left col-md-3 col-md-push-3" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search Tasks">
-            </div>
-            <button type="submit" class="btn btn-primary">搜索</button>
-        </form>
-    </div>
-</nav>
-
+<div id="navigate"></div>
 <!-- 超大屏幕 -->
 <div class="jumbotron" style="height: 575px;background-color: rgb(30,41,61);color: #fff;margin-top: -22px;font-size: 16px;margin-bottom: 0px">
     <div class="container">
         <h3 style="margin-left: -50px;margin-top: -30px;margin-bottom: 20px;color: rgb(36,169,225)">任务队列</h3>
         <table style="width: 100%;" id="tab">
-            <tr style="color: rgb(209,73,78);">
-                <td>时间</td>
-                <td>类型</td>
-                <td>状态</td>
-                <td>结果</td>
-                <td>操作</td>
-            </tr>
-            <tr>
-                <td>2020-02-27 10:13:33</td>    
-                <td>一阶段实验</td>
-                <td><span class="label label-default">在执行中</span></td>
-                <td>
-                    <button class="btn btn-secondary disabled" style="color: #000">查看</button>
-                    <button class="btn btn-secondary disabled" style="color: #000">下载</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger">删除</button>
-                    <button class="btn btn-success">执行</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2020-02-27 10:13:06</td>    
-                <td>一阶段实验</td>
-                <td><span class="label label-default">在执行中</span></td>
-                <td>
-                    <button class="btn btn-secondary disabled" style="color: #000">查看</button>
-                    <button class="btn btn-secondary disabled" style="color: #000">下载</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger">删除</button>
-                    <button class="btn btn-success">执行</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2020-02-27 10:12:26</td>    
-                <td>一阶段实验</td>
-                <td><span class="label label-default">在执行中</span></td>
-                <td>
-                    <button class="btn btn-secondary disabled" style="color: #000">查看</button>
-                    <button class="btn btn-secondary disabled" style="color: #000">下载</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger">删除</button>
-                    <button class="btn btn-success">执行</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2020-02-26 22:20:31</td>    
-                <td>二阶段协调实验</td>
-                <td><span class="label label-primary">执行完成</span></td>
-                <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#look">查看</button>
-                    <button class="btn btn-primary">下载</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger">删除</button>
-                    <button class="btn btn-success">执行</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2020-02-27 21:13:38</td>    
-                <td>二阶段协调实验</td>
-                <td><span class="label label-primary">执行完成</span></td>
-                <td>
-                    <button class="btn btn-primary">查看</button>
-                    <button class="btn btn-primary">下载</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger">删除</button>
-                    <button class="btn btn-success">执行</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2020-02-26 20:17:23</td>    
-                <td>一阶段实验</td>
-                <td><span class="label label-primary">执行完成</span></td>
-                <td>
-                    <button class="btn btn-primary">查看</button>
-                    <button class="btn btn-primary">下载</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger">删除</button>
-                    <button class="btn btn-success">执行</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2020-02-26 19:02:03</td>    
-                <td>一阶段实验</td>
-                <td><span class="label label-primary">执行完成</span></td>
-                <td>
-                    <button class="btn btn-primary">查看</button>
-                    <button class="btn btn-primary">下载</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger">删除</button>
-                    <button class="btn btn-success">执行</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2020-02-26 16:26:30</td>    
-                <td>手动分析</td>
-                <td><span class="label label-danger">映射失败</span></td>
-                <td>
-                    <button class="btn btn-primary">下载</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger">删除</button>
-                    <button class="btn btn-success">执行</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2020-02-26 14:28:43</td>    
-                <td>手动分析</td>
-                <td><span class="label label-success">映射成功</span></td>
-                <td>
-                    <button class="btn btn-primary">下载</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger">删除</button>
-                    <button class="btn btn-success">执行</button>
-                </td>
-            </tr>
-             <tr>
-                <td>2020-02-26 14:19:23</td>    
-                <td>手动分析</td>
-                <td><span class="label label-success">映射成功</span></td>
-                <td>
-                    <button class="btn btn-primary">下载</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger">删除</button>
-                    <button class="btn btn-success">执行</button>
-                </td>
-            </tr>
+            <!--<tr style="color: rgb(209,73,78);">-->
+            <!--<td>时间</td>-->
+            <!--<td>类型</td>-->
+            <!--<td>状态</td>-->
+            <!--<td>结果</td>-->
+            <!--<td>操作</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>2020-02-27 10:13:33</td>    -->
+            <!--<td>一阶段实验</td>-->
+            <!--<td><span class="label label-default">在执行中</span></td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-secondary disabled" style="color: #000">查看</button>-->
+            <!--<button class="btn btn-secondary disabled" style="color: #000">下载</button>-->
+            <!--</td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-danger">删除</button>-->
+            <!--<button class="btn btn-success">执行</button>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>2020-02-27 10:13:06</td>    -->
+            <!--<td>一阶段实验</td>-->
+            <!--<td><span class="label label-default">在执行中</span></td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-secondary disabled" style="color: #000">查看</button>-->
+            <!--<button class="btn btn-secondary disabled" style="color: #000">下载</button>-->
+            <!--</td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-danger">删除</button>-->
+            <!--<button class="btn btn-success">执行</button>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>2020-02-27 10:12:26</td>    -->
+            <!--<td>一阶段实验</td>-->
+            <!--<td><span class="label label-default">在执行中</span></td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-secondary disabled" style="color: #000">查看</button>-->
+            <!--<button class="btn btn-secondary disabled" style="color: #000">下载</button>-->
+            <!--</td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-danger">删除</button>-->
+            <!--<button class="btn btn-success">执行</button>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>2020-02-26 22:20:31</td>    -->
+            <!--<td>二阶段协调实验</td>-->
+            <!--<td><span class="label label-primary">执行完成</span></td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-primary" data-toggle="modal" data-target="#look">查看</button>-->
+            <!--<button class="btn btn-primary">下载</button>-->
+            <!--</td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-danger">删除</button>-->
+            <!--<button class="btn btn-success">执行</button>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>2020-02-27 21:13:38</td>    -->
+            <!--<td>二阶段协调实验</td>-->
+            <!--<td><span class="label label-primary">执行完成</span></td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-primary">查看</button>-->
+            <!--<button class="btn btn-primary">下载</button>-->
+            <!--</td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-danger">删除</button>-->
+            <!--<button class="btn btn-success">执行</button>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>2020-02-26 20:17:23</td>    -->
+            <!--<td>一阶段实验</td>-->
+            <!--<td><span class="label label-primary">执行完成</span></td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-primary">查看</button>-->
+            <!--<button class="btn btn-primary">下载</button>-->
+            <!--</td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-danger">删除</button>-->
+            <!--<button class="btn btn-success">执行</button>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>2020-02-26 19:02:03</td>    -->
+            <!--<td>一阶段实验</td>-->
+            <!--<td><span class="label label-primary">执行完成</span></td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-primary">查看</button>-->
+            <!--<button class="btn btn-primary">下载</button>-->
+            <!--</td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-danger">删除</button>-->
+            <!--<button class="btn btn-success">执行</button>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>2020-02-26 16:26:30</td>    -->
+            <!--<td>手动分析</td>-->
+            <!--<td><span class="label label-danger">映射失败</span></td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-primary">下载</button>-->
+            <!--</td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-danger">删除</button>-->
+            <!--<button class="btn btn-success">执行</button>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>2020-02-26 14:28:43</td>    -->
+            <!--<td>手动分析</td>-->
+            <!--<td><span class="label label-success">映射成功</span></td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-primary">下载</button>-->
+            <!--</td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-danger">删除</button>-->
+            <!--<button class="btn btn-success">执行</button>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>2020-02-26 14:19:23</td>    -->
+            <!--<td>手动分析</td>-->
+            <!--<td><span class="label label-success">映射成功</span></td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-primary">下载</button>-->
+            <!--</td>-->
+            <!--<td>-->
+            <!--<button class="btn btn-danger">删除</button>-->
+            <!--<button class="btn btn-success">执行</button>-->
+            <!--</td>-->
+            <!--</tr>-->
         </table>
         <ul class="pagination" id="pagination">
             <!--<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>-->
@@ -190,222 +181,21 @@
         </ul>
     </div>
 </div>
-
 <!-- 手动分析模态框 -->
-<div class="modal fade" id="handle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    手动分析
-                </h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form" id="handle_analyze" method="post"
-                      enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label class="control-label col-md-5">使用算法</label>
-                        <div class="col-md-7">
-                            <select name="algorithm">
-                                <option value="RCRGF">RCRGF</option>
-                                <option value="AEF_A">AEF_Advance</option>
-                                <option value="AEF_B">AEF_Baseline</option>
-                                <option value="NRM">NRM</option>
-                                <option value="D-ViNE_SP">D-ViNE_SP</option>
-                                <option value="Greedy">Greedy</option>
-                                <option value="subgrapIsomorphism">subgrapIsomorphism</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="file" class="control-label col-md-5">网络拓扑</label>
-                        <div class="col-md-7">
-                            <input type="file" id="file" name="file">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                </button>
-                <button type="button" class="btn btn-primary" onclick="submit_handle()">
-                    提交
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-
+<div id="handleAnalyze"></div>
 <!-- 一阶段实验模态框 -->
-<div class="modal fade" id="experiment1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title">
-                    一阶段实验
-                </h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form" id="onestage_analyze" action="/analyze/onestage" method="post">
-                    <div class="form-group">
-                        <label class="control-label col-md-5">对比算法</label>
-                        <div class="col-md-7">
-                            <select name="algorithms" multiple="multiple">
-                                <option value="RCRGF">RCRGF</option>
-                                <option value="Greedy">Greedy</option>
-                                <option value="subgrapIsomorphism">subgrapIsomorphism</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-5">底层节点</label>
-                        <div class="col-md-7">
-                            <input type="text" placeholder="默认是100-500-10"
-                                name="nodes" id="nodes">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-5">节点比例</label>
-                        <div class="col-md-7">
-                            <input type="text" placeholder="默认是0.1"
-                                   name="nodeRatio" id="nodeRatio">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-5">资源比例</label>
-                        <div class="col-md-7">
-                            <input type="text" placeholder="默认是0.01"
-                                   name="resourceRatio" id="resourceRatio">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                </button>
-                <button type="button" class="btn btn-primary" onclick="submit_onestage()">
-                    提交
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-
+<div id="oneStage"></div>
 <!-- 二阶段协调阶段实验模态框 -->
-<div class="modal fade" id="experiment2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title">
-                    二阶段协调实验
-                </h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form" id="twostage_analyze" action="/analyze/twostage" method="post">
-                    <div class="form-group">
-                        <label class="control-label col-md-5">对比算法</label>
-                        <div class="col-md-7">
-                            <select name="algorithms" multiple="multiple">
-                                <option value="AEF_Advance">AEF_Advance</option>
-                                <option value="AEF_Baseline">AEF_Baseline</option>
-                                <option value="D-ViNE_SP">D-ViNE_SP</option>
-                                <option value="subgrapIsomorphism">subgrapIsomorphism</option>
-                                <option value="NRM">NRM</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-5">底层资源</label>
-                        <div class="col-md-7">
-                            <input type="text" placeholder="默认是50-70"
-                                name="resource" id="resource">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-5">底层alpha</label>
-                        <div class="col-md-7">
-                            <input type="text" placeholder="默认是0.5"
-                                   name="alpha" id="alpha">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-5">底层beta</label>
-                        <div class="col-md-7">
-                            <input type="text" placeholder="默认是0.1"
-                                   name="beta" id="beta">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-5">请求到达因子</label>
-                        <div class="col-md-7">
-                            <input type="text" placeholder="默认是1/10"
-                                   name="arrive" id="arrive">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-5">请求持久因子</label>
-                        <div class="col-md-7">
-                            <input type="text" placeholder="默认是1/1000"
-                                   name="presever" id="presever">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-5">仿真时间</label>
-                        <div class="col-md-7">
-                            <input type="text" placeholder="默认是2000"
-                                   name="time" id="time">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                </button>
-                <button type="button" class="btn btn-primary" onclick="submit_twostage()">
-                    提交
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-
+<div id="twoStage"></div>
 <!-- 实验对比查看 -->
-<div class="modal fade" id="look" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title">
-                    一阶段实验数据查看
-                </h4>
-            </div>
-            <div class="modal-body" id="graph" style="width: 800px;height:400px;">
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-
+<div id="compareResult"></div>
 <!-- 底边栏 -->
-<div class="" align="center" style="vertical-align: center; margin-top: 10px; color: rgb(248,232,137)">
-    虚拟网络映射原型系统，所有权利保留&copy;
-</div>
+<div id="footer"></div>
 </body>
 
 <!-- 处理函数 -->
 <script type="text/javascript">
     var interval_handle; // 全局定时器句柄
-
     function submit_handle() {
         var doc = document.getElementById("handle_analyze");
 		var formData = new FormData(doc);
