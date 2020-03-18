@@ -3,12 +3,12 @@ package com.prop.bean;
 import java.util.List;
 
 /**
- * ·â×°·ÖÒ³µÄĞÅÏ¢
+ * å°è£…åˆ†é¡µçš„ä¿¡æ¯
  */
 public class Page {
-    private int total; // ×Ü¼ÇÂ¼Êı
-    private List<Record> data; // SIZEÌõ¼ÇÂ¼
-    private boolean autoFlush; // ÊÇ·ñÇ°¶Ë×Ô¶¯Ë¢ĞÂ
+    private int total; // æ€»è®°å½•æ•°
+    private List<Record> data; // SIZEæ¡è®°å½•
+    private boolean autoFlush; // æ˜¯å¦å‰ç«¯è‡ªåŠ¨åˆ·æ–°
 
     public int getTotal() {
         return total;

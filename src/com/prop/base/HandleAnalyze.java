@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * ´¦ÀíÊÖ¶¯·ÖÎöµÄ½Ó¿Ú
+ * å¤„ç†æ‰‹åŠ¨åˆ†æçš„æ¥å£
  */
 @WebServlet("/analyze/handle")
 public class HandleAnalyze extends HttpServlet{
@@ -42,24 +42,24 @@ public class HandleAnalyze extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, Object> map = parseField(req);
-        // »ñÈ¡ÓÃ»§µÄuid
+        // è·å–ç”¨æˆ·çš„uid
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String uid = Process.parseUid(req, resp);
         String algorithm = (String) map.get("algorithm");
-        // ²åÈëÇëÇóµ½Êı¾İ¿â
+        // æ’å…¥è¯·æ±‚åˆ°æ•°æ®åº“
         int current_id = 0;
         try {
-            current_id = requestDataBase.insertRequest("ÊÖ¶¯·ÖÎö", algorithm, uid, sdf.format(new Date()));
+            current_id = requestDataBase.insertRequest("æ‰‹åŠ¨åˆ†æ", algorithm, uid, sdf.format(new Date()));
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         Process.setResp(resp, req.getHeader("origin"));
-        // ½«ÎÄ¼şĞ´Èë±¾µØ
+        // å°†æ–‡ä»¶å†™å…¥æœ¬åœ°
         String uploadPath = req.getServletContext().getRealPath("./") + File.separator + UPLOAD_DIR + File.separator + String.valueOf(current_id);
         String targetFile = uploadFile((FileItem) map.get("file"), uploadPath);
-        // ¸üĞÂÇëÇóµÄÖ´ĞĞ²ÎÊı
+        // æ›´æ–°è¯·æ±‚çš„æ‰§è¡Œå‚æ•°
         try {
             requestDataBase.updateRequestArguments(current_id, "algorithm="+algorithm+"&file="+((FileItem)map.get("file")).getName());
         } catch (SQLException e) {
@@ -69,20 +69,20 @@ public class HandleAnalyze extends HttpServlet{
         }
         vnreal.algorithms.myRCRGF.util.Constants.WRITE_FILE =
                 (vnreal.algorithms.myAEF.util.Constants.resultDir = "results/data" + File.separator + String.valueOf(current_id) + File.separator);
-        // ¿ªÆôÏß³ÌÖ´ĞĞÈÎÎñ, ·µ»Ø¸øÇ°¶ËÒ»¸ö±¨ÎÄ
+        // å¼€å¯çº¿ç¨‹æ‰§è¡Œä»»åŠ¡, è¿”å›ç»™å‰ç«¯ä¸€ä¸ªæŠ¥æ–‡
         Task task = new Task(algorithm, targetFile, current_id);
         new Thread(task).start();
     }
 
     private ServletFileUpload upload0() {
-        // ÅäÖÃÉÏ´«²ÎÊı
+        // é…ç½®ä¸Šä¼ å‚æ•°
         DiskFileItemFactory factory = new DiskFileItemFactory();
-        factory.setSizeThreshold(MEMORY_THRESHOLD); // µ±ÎÄ¼şÄÚÈİ³¬¹ı30MB ÓÃÁÙÊ±Ä¿Â¼´æ´¢
-        factory.setRepository(new File(System.getProperty("java.io.tmpdir"))); // ÁÙÊ±Ä¿Â¼ÉèÖÃ
+        factory.setSizeThreshold(MEMORY_THRESHOLD); // å½“æ–‡ä»¶å†…å®¹è¶…è¿‡30MB ç”¨ä¸´æ—¶ç›®å½•å­˜å‚¨
+        factory.setRepository(new File(System.getProperty("java.io.tmpdir"))); // ä¸´æ—¶ç›®å½•è®¾ç½®
         ServletFileUpload upload = new ServletFileUpload(factory);
-        upload.setFileSizeMax(MAX_FILE_SIZE); // ÉèÖÃÉÏ´«ÎÄ¼ş×î´óµÄ´óĞ¡
-        upload.setSizeMax(MAX_REQUEST_SIZE); // ÉèÖÃ×î´óµÄÉÏ´«´óĞ¡£¬°üº¬ÎÄ¼şºÍÆäËû±íµ¥Êı¾İ
-        upload.setHeaderEncoding("UTF-8"); // ´¦ÀíÖĞÎÄ
+        upload.setFileSizeMax(MAX_FILE_SIZE); // è®¾ç½®ä¸Šä¼ æ–‡ä»¶æœ€å¤§çš„å¤§å°
+        upload.setSizeMax(MAX_REQUEST_SIZE); // è®¾ç½®æœ€å¤§çš„ä¸Šä¼ å¤§å°ï¼ŒåŒ…å«æ–‡ä»¶å’Œå…¶ä»–è¡¨å•æ•°æ®
+        upload.setHeaderEncoding("UTF-8"); // å¤„ç†ä¸­æ–‡
         return upload;
     }
 
@@ -120,9 +120,9 @@ public class HandleAnalyze extends HttpServlet{
                     break;
                 case "RCRGF":
                     SimulationRCRGFAdapter simulationRCRGFAdapter = new SimulationRCRGFAdapter();
-                    // Ö´ĞĞÍê³É¸üĞÂÊı¾İ¿â¼ÇÂ¼
-                    updateDBStatus(id, simulationRCRGFAdapter.doRCRGF(filename, id, "ÊÖ¶¯·ÖÎö"));
-                    System.out.println("task Ö´ĞĞÍê³É");
+                    // æ‰§è¡Œå®Œæˆæ›´æ–°æ•°æ®åº“è®°å½•
+                    updateDBStatus(id, simulationRCRGFAdapter.doRCRGF(filename, id, "æ‰‹åŠ¨åˆ†æ"));
+                    System.out.println("task æ‰§è¡Œå®Œæˆ");
                     return;
                 case "SubgraphIsomorphism":
                     abstractAlgorithm = new SubgraphIsomorphismStackAlgorithm(parameter);
@@ -138,16 +138,16 @@ public class HandleAnalyze extends HttpServlet{
                     break;
             }
             RunAEFAdapter runAEFAdapter = new RunAEFAdapter();
-            runAEFAdapter.process(abstractAlgorithm, filename, id, "ÊÖ¶¯·ÖÎö", 50);
-            // Ö´ĞĞÍê³Éºó ĞŞ¸ÄÊı¾İ¿âµÄ¼ÇÂ¼
+            runAEFAdapter.process(abstractAlgorithm, filename, id, "æ‰‹åŠ¨åˆ†æ", 50);
+            // æ‰§è¡Œå®Œæˆå ä¿®æ”¹æ•°æ®åº“çš„è®°å½•
             updateDBStatus(id, abstractAlgorithm.getStati().get(0).getRatio() == 100);
-            System.out.println("task Ö´ĞĞÍê³É");
+            System.out.println("task æ‰§è¡Œå®Œæˆ");
         }
     }
 
     private boolean updateDBStatus(Integer id, boolean succ) {
         try {
-            return requestDataBase.updateRequest(id, succ ? "Ó³Éä³É¹¦" : "Ó³ÉäÊ§°Ü");
+            return requestDataBase.updateRequest(id, succ ? "æ˜ å°„æˆåŠŸ" : "æ˜ å°„å¤±è´¥");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -176,18 +176,18 @@ public class HandleAnalyze extends HttpServlet{
         return map;
     }
 
-    // ÉÏ´«ÇëÇóµÄÎÄ¼şµ½uploadÄ¿Â¼ÏÂ
+    // ä¸Šä¼ è¯·æ±‚çš„æ–‡ä»¶åˆ°uploadç›®å½•ä¸‹
     private String uploadFile(FileItem item, String uploadPath) {
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
         }
-        // ½âÎöÆäÖĞµÄÎÄ¼ş
+        // è§£æå…¶ä¸­çš„æ–‡ä»¶
         String fileName = new File(item.getName()).getName();
         String filePath = uploadPath + File.separator + fileName;
         File storeFile = new File(filePath);
-        System.out.println("ÇëÇóÖĞÎÄ¼şĞ´Èë " + filePath + " ÖĞ");
-        // ±£´æÎÄ¼şµ½Ó²ÅÌ
+        System.out.println("è¯·æ±‚ä¸­æ–‡ä»¶å†™å…¥ " + filePath + " ä¸­");
+        // ä¿å­˜æ–‡ä»¶åˆ°ç¡¬ç›˜
         try {
             item.write(storeFile);
         } catch (Exception e) {

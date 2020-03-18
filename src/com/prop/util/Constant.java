@@ -1,9 +1,9 @@
 package com.prop.util;
 
 /**
- * ³ÌĞòÖĞÊ¹ÓÃµÄ³£Á¿
+ * ç¨‹åºä¸­ä½¿ç”¨çš„å¸¸é‡
  */
 public class Constant {
     public static final int SIZE = 10;
-    public static final int TIME_OUT = 60; // Èç¹ûÒ»·ÖÖÓÖ®ÄÚÃ»ÓĞ´¦ÀíÍê³É£¬ÊÓÎªÒì³£
+    public static final int TIME_OUT = 60; // å¦‚æœä¸€åˆ†é’Ÿä¹‹å†…æ²¡æœ‰å¤„ç†å®Œæˆï¼Œè§†ä¸ºå¼‚å¸¸
 }

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * ÓÃÓÚ·ÖÒ³²å¼ş»ñÈ¡Êı¾İ¿âÊı¾İ
+ * ç”¨äºåˆ†é¡µæ’ä»¶è·å–æ•°æ®åº“æ•°æ®
  */
 @WebServlet("/fetch")
 public class FetchData extends HttpServlet{

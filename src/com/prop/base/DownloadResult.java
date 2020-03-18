@@ -13,27 +13,27 @@ import java.io.*;
 import java.util.zip.ZipOutputStream;
 
 /**
- * ÏÂÔØÖ´ĞĞ½á¹û
+ * ä¸‹è½½æ‰§è¡Œç»“æœ
  */
 @WebServlet("/download")
 public class DownloadResult extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // »ñÈ¡id
-        // ´ò°üzip²¢´«Êä ²Î¿¼https://www.cnblogs.com/nuccch/p/7151228.html
+        // è·å–id
+        // æ‰“åŒ…zipå¹¶ä¼ è¾“ å‚è€ƒhttps://www.cnblogs.com/nuccch/p/7151228.html
         String id = req.getParameter("id");
         if (id == null) {
             PrintWriter out = resp.getWriter();
-            out.println("ÏÂÔØ³öÏÖ´íÎó£¬¿ÉÄÜ·şÎñÆ÷ÉÏ×ÊÔ´²»´æÔÚ»òÕß·ÃÎÊÂ·¾¶²»ÊÊºÏ");
+            out.println("ä¸‹è½½å‡ºç°é”™è¯¯ï¼Œå¯èƒ½æœåŠ¡å™¨ä¸Šèµ„æºä¸å­˜åœ¨æˆ–è€…è®¿é—®è·¯å¾„ä¸é€‚åˆ");
             out.close();
             return;
         }
-        // ½«Ä¿Â¼´ò°ü
+        // å°†ç›®å½•æ‰“åŒ…
         File file = new File("results/data/" + String.valueOf(id));
         String targetFilePath = "results/data/" + String.valueOf(id) + ".zip";
         ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(targetFilePath));
         ZipWrite.compress(file, zos, file.getName(), true);
-        // ½«Ñ¹Ëõ°ü·¢ËÍ¸øÇ°¶Ë
+        // å°†å‹ç¼©åŒ…å‘é€ç»™å‰ç«¯
 //        Process.setResp(resp, req.getHeader("origin"));
         resp.setContentType("application/octet-stream");
         resp.setHeader("Content-Disposition", "attachment;filename=" + String.valueOf(id) + ".zip");
@@ -42,7 +42,7 @@ public class DownloadResult extends HttpServlet{
         int len;
         byte[] buffer = new byte[1024];
         while ((len = inputStream.read(buffer)) != -1) {
-            // »¹´æÔÚÊı¾İ
+            // è¿˜å­˜åœ¨æ•°æ®
             out.write(buffer, 0, len);
         }
         out.close();

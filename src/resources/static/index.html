@@ -10,175 +10,53 @@
 	<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
     <script src="js/bootstrap-paginator.min.js"></script>
     <script type="text/javascript">
+        $.ajaxSetup({
+            cache: false // 关闭ajax缓存
+        });
         document.write("<script type='text/javascript' src='js/commicate.js?time="+new Date().getTime()+"'></s"+"cript>");
         document.write("<script type='text/javascript' src='js/domprocess.js?time="+new Date().getTime()+"'></s"+"cript>");
         document.write("<link rel='stylesheet' href='css/index.css?time=" + new Date().getTime() + "'/>");
         // 引入组件
         $(document).ready(function () {
-            $('#navigate').load('html/navigate.html');
-            $('#content').load('html/content.html');
             $('#handleAnalyze').load('html/handleAnalyze.html');
             $('#oneStage').load('html/oneStage.html');
             $('#twoStage').load('html/twoStage.html');
             $('#compareResult').load('html/compareResult.html');
-            $('#footer').load('html/footer.html');
         })
     </script>
 </head>
 <body style="background-color: #000" onload="init()">
 <!-- 导航栏 -->
-<div id="navigate"></div>
+<div id="navigate">
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header col-md-2" data-toggle="modal" data-target="#handle">
+                <a class="navbar-brand" href="#">手动分析</a>
+            </div>
+            <div class="navbar-header col-md-2" data-toggle="modal" data-target="#experiment1">
+                <a class="navbar-brand" href="#">一阶段实验</a>
+            </div>
+            <div class="navbar-header col-md-2" data-toggle="modal" data-target="#experiment2">
+                <a class="navbar-brand" href="#">二阶段协调实验</a>
+            </div>
+            <form class="navbar-form navbar-left col-md-3 col-md-push-3" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search Tasks">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div id="loginStatus">
+                    <button style="margin-left: 10px" onclick="login()">登录</button>
+                </div>
+            </form>
+        </div>
+    </nav>
+</div>
 <!-- 超大屏幕 -->
 <div class="jumbotron" style="height: 575px;background-color: rgb(30,41,61);color: #fff;margin-top: -22px;font-size: 16px;margin-bottom: 0px">
     <div class="container">
         <h3 style="margin-left: -50px;margin-top: -30px;margin-bottom: 20px;color: rgb(36,169,225)">任务队列</h3>
-        <table style="width: 100%;" id="tab">
-            <!--<tr style="color: rgb(209,73,78);">-->
-            <!--<td>时间</td>-->
-            <!--<td>类型</td>-->
-            <!--<td>状态</td>-->
-            <!--<td>结果</td>-->
-            <!--<td>操作</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-            <!--<td>2020-02-27 10:13:33</td>    -->
-            <!--<td>一阶段实验</td>-->
-            <!--<td><span class="label label-default">在执行中</span></td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-secondary disabled" style="color: #000">查看</button>-->
-            <!--<button class="btn btn-secondary disabled" style="color: #000">下载</button>-->
-            <!--</td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-danger">删除</button>-->
-            <!--<button class="btn btn-success">执行</button>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-            <!--<td>2020-02-27 10:13:06</td>    -->
-            <!--<td>一阶段实验</td>-->
-            <!--<td><span class="label label-default">在执行中</span></td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-secondary disabled" style="color: #000">查看</button>-->
-            <!--<button class="btn btn-secondary disabled" style="color: #000">下载</button>-->
-            <!--</td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-danger">删除</button>-->
-            <!--<button class="btn btn-success">执行</button>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-            <!--<td>2020-02-27 10:12:26</td>    -->
-            <!--<td>一阶段实验</td>-->
-            <!--<td><span class="label label-default">在执行中</span></td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-secondary disabled" style="color: #000">查看</button>-->
-            <!--<button class="btn btn-secondary disabled" style="color: #000">下载</button>-->
-            <!--</td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-danger">删除</button>-->
-            <!--<button class="btn btn-success">执行</button>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-            <!--<td>2020-02-26 22:20:31</td>    -->
-            <!--<td>二阶段协调实验</td>-->
-            <!--<td><span class="label label-primary">执行完成</span></td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-primary" data-toggle="modal" data-target="#look">查看</button>-->
-            <!--<button class="btn btn-primary">下载</button>-->
-            <!--</td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-danger">删除</button>-->
-            <!--<button class="btn btn-success">执行</button>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-            <!--<td>2020-02-27 21:13:38</td>    -->
-            <!--<td>二阶段协调实验</td>-->
-            <!--<td><span class="label label-primary">执行完成</span></td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-primary">查看</button>-->
-            <!--<button class="btn btn-primary">下载</button>-->
-            <!--</td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-danger">删除</button>-->
-            <!--<button class="btn btn-success">执行</button>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-            <!--<td>2020-02-26 20:17:23</td>    -->
-            <!--<td>一阶段实验</td>-->
-            <!--<td><span class="label label-primary">执行完成</span></td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-primary">查看</button>-->
-            <!--<button class="btn btn-primary">下载</button>-->
-            <!--</td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-danger">删除</button>-->
-            <!--<button class="btn btn-success">执行</button>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-            <!--<td>2020-02-26 19:02:03</td>    -->
-            <!--<td>一阶段实验</td>-->
-            <!--<td><span class="label label-primary">执行完成</span></td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-primary">查看</button>-->
-            <!--<button class="btn btn-primary">下载</button>-->
-            <!--</td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-danger">删除</button>-->
-            <!--<button class="btn btn-success">执行</button>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-            <!--<td>2020-02-26 16:26:30</td>    -->
-            <!--<td>手动分析</td>-->
-            <!--<td><span class="label label-danger">映射失败</span></td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-primary">下载</button>-->
-            <!--</td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-danger">删除</button>-->
-            <!--<button class="btn btn-success">执行</button>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-            <!--<td>2020-02-26 14:28:43</td>    -->
-            <!--<td>手动分析</td>-->
-            <!--<td><span class="label label-success">映射成功</span></td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-primary">下载</button>-->
-            <!--</td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-danger">删除</button>-->
-            <!--<button class="btn btn-success">执行</button>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-            <!--<td>2020-02-26 14:19:23</td>    -->
-            <!--<td>手动分析</td>-->
-            <!--<td><span class="label label-success">映射成功</span></td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-primary">下载</button>-->
-            <!--</td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-danger">删除</button>-->
-            <!--<button class="btn btn-success">执行</button>-->
-            <!--</td>-->
-            <!--</tr>-->
-        </table>
-        <ul class="pagination" id="pagination">
-            <!--<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>-->
-            <!--<li class="page-item active"><a class="page-link" href="#">1</a></li>-->
-            <!--<li class="page-item"><a class="page-link" href="#">2</a></li>-->
-            <!--<li class="page-item"><a class="page-link" href="#">3</a></li>-->
-            <!--<li class="page-item"><a class="page-link" href="#">...</a></li>-->
-            <!--<li class="page-item"><a class="page-link" href="#">13</a></li>-->
-            <!--<li class="page-item"><a class="page-link" href="#">14</a></li>-->
-            <!--<li class="page-item"><a class="page-link" href="#">15</a></li>-->
-            <!--<li class="page-item"><a class="page-link" href="#">Next</a></li>-->
-        </ul>
+        <table style="width: 100%;" id="tab"></table>
+        <ul class="pagination" id="pagination"></ul>
     </div>
 </div>
 <!-- 手动分析模态框 -->
@@ -190,7 +68,11 @@
 <!-- 实验对比查看 -->
 <div id="compareResult"></div>
 <!-- 底边栏 -->
-<div id="footer"></div>
+<div id="footer">
+    <div class="" align="center" style="vertical-align: center; margin-top: 10px; color: rgb(248,232,137)">
+        虚拟网络映射原型系统，所有权利保留&copy;
+    </div>
+</div>
 </body>
 
 <!-- 处理函数 -->
@@ -211,6 +93,7 @@
     }
 
     function init() {
+        checkCookie();
         RequestGetPage(tabDom, 'http://localhost:8080/fetch?pageNo=0', function (data) {
             console.log(JSON.stringify(data));
             taskQueueUpdate(document.getElementById('tab'), data);
@@ -270,6 +153,33 @@
         var form = $("<form></form>").attr("action", url).attr("method", "post");
         form.append($("<input></input>").attr("type", "hidden").attr("name", "id").attr("value", id));
         form.appendTo('body').submit().remove();
+    }
+
+    function checkCookie() {
+        // 进行登录操作，在初始化的时候，检测cookie中是否存在用户名和密码，如果存在那么视为自动登陆成功，按钮文字显示注销
+        // 否则显示登录。登录时候，如果可以从数据中找到用户，那么则登录成功；否则登录失败。此时修改用户uid为指定的为hash的结果
+        // session, session默认保存为一天
+        var ck = document.cookie;
+        var ckarray = ck.split(';');
+        var msg = '登录';
+        for (var i in ckarray) {
+            var key = ckarray[i].split('=')[0];
+            var value = ckarray[i].split('=')[1];
+            if (key == 'uid_' && value.indexOf('session_')) {
+                // 说明登录过
+                msg = '注销';
+            }
+        }
+        if (msg == '登录') {
+            $('#loginStatus').innerHTML('<button style="margin-left: 10px" onclick="login()">登录</button>');
+        } else {
+            $('#loginStatus').innerHTML('<button style="margin-left: 10px" onclick="logout()">注销</button>');
+        }
+    }
+
+    function login() {
+        // 打开登录界面
+
     }
 
     function submit_onestage() {

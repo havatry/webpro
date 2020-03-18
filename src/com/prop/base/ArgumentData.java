@@ -15,23 +15,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ·µ»ØÇëÇóµÄÖ´ĞĞ²ÎÊı
+ * è¿”å›è¯·æ±‚çš„æ‰§è¡Œå‚æ•°
  */
 @WebServlet("/arguments")
 public class ArgumentData extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // »ñÈ¡²ÎÊıid
-        // ·µ»Ø¸Ãid¶ÔÓ¦µÄ²ÎÊıÖµ
+        // è·å–å‚æ•°id
+        // è¿”å›è¯¥idå¯¹åº”çš„å‚æ•°å€¼
         String id = req.getParameter("id");
         Map<String, String> ret = new HashMap<>();
         if (id == null) {
-            ret.put("msg", "Òì³£Çé¿ö, ¿ÉÄÜ²»ÊÇÍ¨¹ıºÏÊÊµÄÂ·¾¶·ÃÎÊ");
+            ret.put("msg", "å¼‚å¸¸æƒ…å†µ, å¯èƒ½ä¸æ˜¯é€šè¿‡åˆé€‚çš„è·¯å¾„è®¿é—®");
         } else {
             RequestDataBase requestDataBase = new RequestDataBase();
             try {
                 String args = requestDataBase.getArguments(Integer.valueOf(id));
-                // ÊÇ&·Ö¸ôµÄ
+                // æ˜¯&åˆ†éš”çš„
                 String[] part = args.split("&");
                 for (String p : part) {
                     String[] two = p.split("=");
@@ -39,7 +39,7 @@ public class ArgumentData extends HttpServlet{
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                ret.put("msg", "»ñÈ¡²ÎÊıÎ´³É¹¦");
+                ret.put("msg", "è·å–å‚æ•°æœªæˆåŠŸ");
             }
         }
         Process.setResp(resp, req.getHeader("origin"));

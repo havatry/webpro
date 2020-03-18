@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * ¸ºÔğÓëÊı¾İ¿âÍ¨ĞÅ
+ * è´Ÿè´£ä¸æ•°æ®åº“é€šä¿¡
  */
 public class RequestDataBase {
     private static final String driver;
@@ -38,13 +38,13 @@ public class RequestDataBase {
         return DriverManager.getConnection(url, user, password);
     }
 
-    // ²åÈëÇ°¶ËÇëÇó²¢·µ»Ø×ÔÔöid
+    // æ’å…¥å‰ç«¯è¯·æ±‚å¹¶è¿”å›è‡ªå¢id
     public int insertRequest(String type, String algorithm, String uid, String date) throws SQLException, ClassNotFoundException {
         String sql = "insert into request(type, status, algorithm, create_time, operator) values (?, ?, ?, ?, ?)";
         Connection connection = connect();
         PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, type);
-        preparedStatement.setString(2, "ÔÚÖ´ĞĞÖĞ");
+        preparedStatement.setString(2, "åœ¨æ‰§è¡Œä¸­");
         preparedStatement.setString(3, algorithm);
         preparedStatement.setString(4, date);
         preparedStatement.setString(5, uid);
@@ -57,7 +57,7 @@ public class RequestDataBase {
         return id;
     }
 
-    // ½«ÇëÇóµÄ×´Ì¬¸Ä³ÉÖ¸¶¨µÄ×´Ì¬£¬ÕâÔÚºóÌ¨Íê³ÉÁËÓ³ÉäºóÈ¥¸üĞÂÊı¾İ¿â
+    // å°†è¯·æ±‚çš„çŠ¶æ€æ”¹æˆæŒ‡å®šçš„çŠ¶æ€ï¼Œè¿™åœ¨åå°å®Œæˆäº†æ˜ å°„åå»æ›´æ–°æ•°æ®åº“
     public boolean updateRequest(Integer id, String status) throws SQLException, ClassNotFoundException {
         String sql = "update request set status = ? where id = ?";
         Connection connection = connect();
@@ -67,7 +67,7 @@ public class RequestDataBase {
         return preparedStatement.executeUpdate() > 0;
     }
 
-    // »ñÈ¡ÇëÇóµÄÖ´ĞĞ²ÎÊı
+    // è·å–è¯·æ±‚çš„æ‰§è¡Œå‚æ•°
     public String getArguments(Integer id) throws SQLException, ClassNotFoundException {
         String sql = "select arguments from request where id = ?";
         Connection connection = connect();
@@ -78,7 +78,7 @@ public class RequestDataBase {
         return resultSet.getString("arguments");
     }
 
-    // ÉèÖÃ²ÎÊı
+    // è®¾ç½®å‚æ•°
     public boolean updateRequestArguments(Integer id, String args) throws SQLException, ClassNotFoundException {
         String sql = "update request set arguments = ? where id = ?";
         Connection connection = connect();
@@ -88,7 +88,7 @@ public class RequestDataBase {
         return preparedStatement.executeUpdate() > 0;
     }
 
-    // »ñÈ¡ÓÃ»§uidµÄËùÓĞÇëÇó ²¢ÇÒ°´ÕÕÊ±¼ä½µĞò È¡³öÇ°SIZEÌõ¼ÇÂ¼
+    // è·å–ç”¨æˆ·uidçš„æ‰€æœ‰è¯·æ±‚ å¹¶ä¸”æŒ‰ç…§æ—¶é—´é™åº å–å‡ºå‰SIZEæ¡è®°å½•
     public Page queryAll(String uid, int offset) throws SQLException, ClassNotFoundException {
         String sql = "select * from request where operator = ? ORDER BY create_time DESC limit ?, ?";
         Connection connection = connect();
@@ -112,7 +112,7 @@ public class RequestDataBase {
         return page;
     }
 
-    // ²éÑ¯Êı¾İ¿â×ÜÊı
+    // æŸ¥è¯¢æ•°æ®åº“æ€»æ•°
     public int getToTal(String uid) throws SQLException, ClassNotFoundException {
         String sql = "select count(*) from request WHERE  operator = '" + uid + "'";
         Connection connection = connect();
@@ -122,7 +122,7 @@ public class RequestDataBase {
         return resultSet.getInt(1);
     }
 
-    // É¾³ıÖ¸¶¨µÄrequest
+    // åˆ é™¤æŒ‡å®šçš„request
     public boolean deleteRequest(Integer id) throws SQLException, ClassNotFoundException {
         String sql = "delete from request where id = ?";
         Connection connection = connect();

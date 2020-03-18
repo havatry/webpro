@@ -13,11 +13,11 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * ∂‘cookieÕ≥“ª¥¶¿Ì
+ * ÂØπcookieÁªü‰∏ÄÂ§ÑÁêÜ
  */
 public class Process {
     public static String parseUid(HttpServletRequest req, HttpServletResponse resp) {
-        // ¥”cookie÷–∂¡»°uid
+        // ‰ªécookie‰∏≠ËØªÂèñuid
         Cookie[] cookies = req.getCookies();
         String uid = null;
         if (cookies != null) {
@@ -29,18 +29,18 @@ public class Process {
             }
         }
         if (uid == null) {
-            // –¬º”
+            // Êñ∞Âä†
             uid = Objects.hash(req.getRemoteAddr()) + String.valueOf(new Date().getTime());
             Cookie cnew = new Cookie("uid_", uid);
             cnew.setMaxAge(60 * 60 * 24 * 365);
-            cnew.setPath("/"); // ±ÿ–Î…Ë÷√
+            cnew.setPath("/"); // ÂøÖÈ°ªËÆæÁΩÆ
             resp.addCookie(cnew);
         }
         return uid;
     }
 
     public static Page parsePage(String uid, int pageNo) {
-        // ¥” ˝æ›ø‚÷–ªÒ»° ˝æ›
+        // ‰ªéÊï∞ÊçÆÂ∫ì‰∏≠Ëé∑ÂèñÊï∞ÊçÆ
         RequestDataBase requestDataBase = new RequestDataBase();
         Page page = null;
         try {
@@ -63,11 +63,11 @@ public class Process {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         RequestDataBase requestDataBase = new RequestDataBase();
         for (Record r : page.getData()) {
-            if (Objects.equals(r.getStatus(), "‘⁄÷¥––÷–")) {
-                // ≈–∂œ «∑Ò“Ï≥£
+            if (Objects.equals(r.getStatus(), "Âú®ÊâßË°å‰∏≠")) {
+                // Âà§Êñ≠ÊòØÂê¶ÂºÇÂ∏∏
                 if (new Date().getTime() - sdf.parse(r.getDate()).getTime() > Constant.TIME_OUT * 1000) {
-                    requestDataBase.updateRequest(r.getId(), "«Î«Û“Ï≥£");
-                    r.setStatus("«Î«Û“Ï≥£");
+                    requestDataBase.updateRequest(r.getId(), "ËØ∑Ê±ÇÂºÇÂ∏∏");
+                    r.setStatus("ËØ∑Ê±ÇÂºÇÂ∏∏");
                 } else {
                     autoFlush = true;
                 }

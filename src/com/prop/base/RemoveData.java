@@ -16,34 +16,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * É¾³ıÒ»Ğ©ÇëÇó
+ * åˆ é™¤ä¸€äº›è¯·æ±‚
  */
 @WebServlet("/remove")
 public class RemoveData extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-        Map<String, String> ret = new HashMap<>(); // ·µ»ØµÄÏûÏ¢
+        Map<String, String> ret = new HashMap<>(); // è¿”å›çš„æ¶ˆæ¯
         if (id == null) {
-            ret.put("msg", "Òì³£Çé¿ö, ¿ÉÄÜ²»ÊÇÍ¨¹ıºÏÊÊµÄÂ·¾¶·ÃÎÊ");
+            ret.put("msg", "å¼‚å¸¸æƒ…å†µ, å¯èƒ½ä¸æ˜¯é€šè¿‡åˆé€‚çš„è·¯å¾„è®¿é—®");
         } else {
-            // É¾³ı¶ÔÓ¦µÄÎÄ¼ş¼Ğ
+            // åˆ é™¤å¯¹åº”çš„æ–‡ä»¶å¤¹
             File target = new File("results/data/" + id);
-            // ÏÈÉ¾³ıÆäÖĞµÄÎÄ¼ş
+            // å…ˆåˆ é™¤å…¶ä¸­çš„æ–‡ä»¶
             for (File f : target.listFiles()) {
                 f.delete();
             }
             target.delete();
-            // É¾³ıÑ¹Ëõ°ü
+            // åˆ é™¤å‹ç¼©åŒ…
             new File("results/data/"+id+".zip").delete();
             RequestDataBase requestDataBase = new RequestDataBase();
             try {
-                // É¾³ıÊı¾İ¿âÖĞµÄ¼ÇÂ¼
+                // åˆ é™¤æ•°æ®åº“ä¸­çš„è®°å½•
                 requestDataBase.deleteRequest(Integer.valueOf(id));
-                ret.put("msg", "É¾³ı³É¹¦");
+                ret.put("msg", "åˆ é™¤æˆåŠŸ");
             } catch (Exception e) {
                 e.printStackTrace();
-                ret.put("msg", "É¾³ıÎ´³É¹¦");
+                ret.put("msg", "åˆ é™¤æœªæˆåŠŸ");
             }
         }
         Process.setResp(resp, req.getHeader("origin"));

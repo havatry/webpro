@@ -1,7 +1,7 @@
 package com.prop.bean;
 
 /**
- * 返回给前端的格式
+ * 杩斿洖缁欏墠绔殑鏍煎紡
  */
 public class Record {
     private int id;

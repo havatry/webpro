@@ -7,17 +7,17 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * ´ò°üzip¹¤¾ßÀà
+ * æ‰“åŒ…zipå·¥å…·ç±»
  */
 public class ZipWrite {
     private final static int BUFFER_SIZE=1024;
 
     public static void compress(File source, ZipOutputStream zos, String name, boolean KeepDirStructure) throws IOException {
         byte[] buffer=new byte[BUFFER_SIZE];
-        if(source.isFile()){//ÎÄ¼ş²Ù×÷
-            //ÏòzipÊä³öÁ÷ÖĞ¼ÓÈëzipÊµÌå
-            zos.putNextEntry(new ZipEntry(name));//ÒÔname´´½¨Ñ¹ËõÎÄ¼ş
-            //copyÎÄ¼ş
+        if(source.isFile()){//æ–‡ä»¶æ“ä½œ
+            //å‘zipè¾“å‡ºæµä¸­åŠ å…¥zipå®ä½“
+            zos.putNextEntry(new ZipEntry(name));//ä»¥nameåˆ›å»ºå‹ç¼©æ–‡ä»¶
+            //copyæ–‡ä»¶
             int len;
             FileInputStream in=new FileInputStream(source);
             while((len=in.read(buffer))!=-1){
@@ -26,17 +26,17 @@ public class ZipWrite {
             //complete
             in.close();
             zos.closeEntry();
-        }else{//Ä¿Â¼²Ù×÷
+        }else{//ç›®å½•æ“ä½œ
             File[] files=source.listFiles();
             if(files==null || files.length==0){
-                //¿ÕÄ¿Â¼
+                //ç©ºç›®å½•
                 if(KeepDirStructure){
-                    //±£³ÖÄ¿Â¼½á¹¹
+                    //ä¿æŒç›®å½•ç»“æ„
                     zos.putNextEntry(new ZipEntry(name+"/"));
                     zos.closeEntry();
                 }
             }else{
-                //Ä¿Â¼ÏÂÓĞÎÄ¼ş
+                //ç›®å½•ä¸‹æœ‰æ–‡ä»¶
                 for(File file:files){
                     if(KeepDirStructure){
                         compress(file, zos, name+"/"+file.getName(), KeepDirStructure);
