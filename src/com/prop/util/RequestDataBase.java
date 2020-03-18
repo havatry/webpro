@@ -2,8 +2,8 @@ package com.prop.util;
 
 import com.prop.bean.Page;
 import com.prop.bean.Record;
+import com.prop.bean.User;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
@@ -129,5 +129,48 @@ public class RequestDataBase {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, id);
         return preparedStatement.executeUpdate() > 0;
+    }
+
+    public User queryUser(String username) throws SQLException, ClassNotFoundException {
+        String sql = "select * from webpro_user where username = ?";
+        Connection connection = connect();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        User user = null;
+        if (resultSet.next()) {
+            // 存在
+            user = new User();
+            user.setUsername(resultSet.getString("username"));
+            user.setPassword(resultSet.getString("password"));
+            user.setSessionId(resultSet.getString("sessionId"));
+            user.setOrigin(resultSet.getString("origin"));
+        }
+        return user;
+    }
+
+    public boolean insertUser(User user) throws SQLException, ClassNotFoundException {
+        String sql = "insert into webpro_user (username, password, sessionId, origin) values (?, ?, ?, ?)";
+        Connection connection = connect();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, user.getUsername());
+        preparedStatement.setString(2, user.getPassword());
+        preparedStatement.setString(3, user.getSessionId());
+        preparedStatement.setString(4, user.getOrigin());
+        return preparedStatement.executeUpdate() > 0;
+    }
+
+    public String findUid(String sessionId) throws SQLException, ClassNotFoundException {
+        String sql = "select origin from webpro_user where sessionId = ?";
+        Connection connection = connect();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, sessionId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getString("origin");
+        } else {
+            // 找不到
+            return null;
+        }
     }
 }

@@ -22,6 +22,7 @@
             $('#oneStage').load('html/oneStage.html');
             $('#twoStage').load('html/twoStage.html');
             $('#compareResult').load('html/compareResult.html');
+            $('#loginModal').load('html/login.html');
         })
     </script>
 </head>
@@ -44,8 +45,8 @@
                     <input type="text" class="form-control" placeholder="Search Tasks">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <div id="loginStatus">
-                    <button style="margin-left: 10px" onclick="login()">登录</button>
+                <div id="loginStatus" style="display: inline">
+                    <!--<button style="margin-left: 10px">登录</button>-->
                 </div>
             </form>
         </div>
@@ -67,6 +68,7 @@
 <div id="twoStage"></div>
 <!-- 实验对比查看 -->
 <div id="compareResult"></div>
+<div id="loginModal"></div>
 <!-- 底边栏 -->
 <div id="footer">
     <div class="" align="center" style="vertical-align: center; margin-top: 10px; color: rgb(248,232,137)">
@@ -94,7 +96,7 @@
 
     function init() {
         checkCookie();
-        RequestGetPage(tabDom, 'http://localhost:8080/fetch?pageNo=0', function (data) {
+        RequestGetPageWithDes(tabDom, 'http://localhost:8080/fetch?pageNo=0', function (data) {
             console.log(JSON.stringify(data));
             taskQueueUpdate(document.getElementById('tab'), data);
             flush(data['autoFlush']);
@@ -165,21 +167,51 @@
         for (var i in ckarray) {
             var key = ckarray[i].split('=')[0];
             var value = ckarray[i].split('=')[1];
-            if (key == 'uid_' && value.indexOf('session_')) {
+            if (key == 'uid_' && value.indexOf('session_') > -1) {
                 // 说明登录过
                 msg = '注销';
             }
         }
+        var dom = document.getElementById('loginStatus');
         if (msg == '登录') {
-            $('#loginStatus').innerHTML('<button style="margin-left: 10px" onclick="login()">登录</button>');
+            dom.innerHTML = '<button style="margin-left: 10px" data-toggle="modal" data-target="#loginPage">登录</button>';
         } else {
-            $('#loginStatus').innerHTML('<button style="margin-left: 10px" onclick="logout()">注销</button>');
+            dom.innerHTML = '<button style="margin-left: 10px" onclick="login(\'logout\')">注销</button>';
         }
     }
 
-    function login() {
-        // 打开登录界面
-
+    function login(type) {
+        if (type == 'login' || type == 'register') {
+            if ($('input[name="username"]').val() == '' || $('input[name="passwod"]').val() == '') {
+                alert((type == 'login' ? '登录' : '注册') + '用户名和密码都不能为空');
+                return;
+            }
+            $('#type').attr('value', type); // 赋值
+            RequestPostX('http://localhost:8080/login', $('#loginForm').serialize(), function (data) {
+                alert(data.msg);
+                if (type == 'login' && data.msg == '用户登录成功') {
+                    // 关闭模态框
+                    $('#loginPage').modal('hide');
+                    // 刷新页面
+                    checkCookie();
+                    flush(true);
+                } else if (type == 'register' && data.msg.indexOf('用户名已存在') > -1) {
+                    // 清空
+                    document.getElementById('loginForm').reset();
+                    $('input[name="username"]').focus();
+                }
+            });
+        } else if (type == 'logout') {
+            // 注销
+            RequestPostX('http://localhost:8080/login', {type : type}, function (data) {
+                alert(data.msg);
+                if (data.msg == '用户注销成功') {
+                    // 刷新页面
+                    checkCookie();
+                    flush(true);
+                }
+            })
+        }
     }
 
     function submit_onestage() {

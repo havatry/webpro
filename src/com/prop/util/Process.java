@@ -30,7 +30,7 @@ public class Process {
         }
         if (uid == null) {
             // 新加
-            uid = Objects.hash(req.getRemoteAddr()) + String.valueOf(new Date().getTime());
+            uid = Objects.hash(req.getRemoteAddr()) + String.valueOf(System.currentTimeMillis());
             Cookie cnew = new Cookie("uid_", uid);
             cnew.setMaxAge(60 * 60 * 24 * 365);
             cnew.setPath("/"); // 必须设置
