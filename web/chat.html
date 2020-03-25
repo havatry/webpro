@@ -10,7 +10,6 @@
         .box{width:700px;margin:20px auto;}
         .box span{color:#f60;font-size:16px;font-family:"微软雅黑";}
         .box .shu{text-indent:1em;height:24px;font-family:"微软雅黑";border:0;outline:none;font-size:14px;}
-        .box .add{width:300px;margin-right:24px;}
         .box .user{width:200px;}
         .box .btn{width:80px;height:34px;color:#fff;background:#6c0;border:0;outline:none;cursor:pointer;margin-top:20px;font-size:16px;font-family:"微软雅黑";}
         .box .area{line-height: 29px;height:280px;width:680px;padding:10px;overflow:auto;font-size:16px;font-family:"微软雅黑";margin:20px 0;outline:none;box-shadow:1px 2px 18px #000}
@@ -112,10 +111,7 @@
                 ws.close();
             }
         } else {
-            $.tmDialog.alert({
-                open: left,
-                content: "用户名不能为空"
-            });
+            alert("用户名不能为空");
         }
     });
     // 回车键

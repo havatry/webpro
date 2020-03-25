@@ -165,8 +165,8 @@
         var ckarray = ck.split(';');
         var msg = '登录';
         for (var i in ckarray) {
-            var key = ckarray[i].split('=')[0];
-            var value = ckarray[i].split('=')[1];
+            var key = ckarray[i].split('=')[0].trim();
+            var value = ckarray[i].split('=')[1].trim();
             if (key == 'uid_' && value.indexOf('session_') > -1) {
                 // 说明登录过
                 msg = '注销';
