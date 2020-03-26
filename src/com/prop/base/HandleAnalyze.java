@@ -56,6 +56,7 @@ public class HandleAnalyze extends HttpServlet{
             e.printStackTrace();
         }
         Process.setResp(resp, req.getHeader("origin"));
+        resp.getWriter().close(); // 提前返回响应
         // 将文件写入本地
         String uploadPath = req.getServletContext().getRealPath("./") + File.separator + UPLOAD_DIR + File.separator + String.valueOf(current_id);
         String targetFile = uploadFile((FileItem) map.get("file"), uploadPath);
@@ -141,7 +142,7 @@ public class HandleAnalyze extends HttpServlet{
             runAEFAdapter.process(abstractAlgorithm, filename, id, "手动分析", 50);
             // 执行完成后 修改数据库的记录
             updateDBStatus(id, abstractAlgorithm.getStati().get(0).getRatio() == 100);
-            System.out.println("task 执行完成");
+            System.out.println("手动分析task 执行完成");
         }
     }
 

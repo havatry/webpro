@@ -22,11 +22,15 @@ public class HandleOneStage extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        writeRequestToDB(req, resp);
+        int id = writeRequestToDB(req, resp);
         Process.setResp(resp, req.getHeader("origin"));
         resp.getWriter().close(); // 返回前端数据
         autoGenerate(req); // 生成拓扑
-
+        String[] part = req.getParameter("nodes").split("-");
+        Thread t = new Thread(new Task(req.getParameterValues("algorithms"), part,
+                Double.valueOf(req.getParameter("resourceRatio")),
+                        Double.valueOf(req.getParameter("nodeRatio")), id));
+        t.start(); // 执行计算
     }
 
     private class Task implements Runnable {
@@ -35,24 +39,46 @@ public class HandleOneStage extends HttpServlet{
         private int maxExclude;
         private int step;
         private SimulationRCRGFAdapter simulationRCRGFAdapter;
+        private double resourceRatio;
+        private double nodeRatio;
+        private int id;
+        private String type;
 
-        public Task(String[] algorithms, String[] part) {
+        public Task(String[] algorithms, String[] part, double resourceRatio, double nodeRatio, int id) {
             this.algorithms = Arrays.asList(algorithms);
             this.min = Integer.valueOf(part[0]);
             this.maxExclude = Integer.valueOf(part[1]);
             this.step = Integer.valueOf(part[2]);
+            this.resourceRatio = resourceRatio;
+            this.nodeRatio = nodeRatio;
+            this.id = id;
+            this.type = "一阶段实验";
             simulationRCRGFAdapter = new SimulationRCRGFAdapter();
         }
 
         @Override
         public void run() {
             for (int i = min; i < maxExclude; i+=step) {
-                String filename; // 修改原jar文件
+                String filename = "topology_" + i + "_" +  resourceRatio + "_" + nodeRatio + ".xml";
+                if (algorithms.contains("RCRGF")) {
+                    simulationRCRGFAdapter.doRCRGF(filename, id, type);
+                }
+                if (algorithms.contains("Greedy")) {
+                    simulationRCRGFAdapter.doGreedy(filename, id, type);
+                }
+                if (algorithms.contains("subgrapIsomorphism")) {
+                    simulationRCRGFAdapter.doSubgraph(filename, id, type);
+                }
             }
-            // 对于每种算法进行计算
-            if (algorithms.contains("RCRGF")) {
-//                simulationRCRGFAdapter.doRCRGF()
+            // 计算后更新数据库状态
+            try {
+                requestDataBase.updateRequest(id, "执行完成");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
+            System.out.println("一阶段实验task 执行完成");
         }
     }
 
