@@ -4,12 +4,17 @@ import com.prop.util.Process;
 import com.prop.util.RequestDataBase;
 import vnreal.algorithms.myAdapter.SimulationRCRGFAdapter;
 import vnreal.algorithms.myAdapter.ToGenRCRGFAdapter;
+import vnreal.algorithms.myRCRGF.util.Constants;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -17,16 +22,32 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@WebServlet("/handle/onestage")
 public class HandleOneStage extends HttpServlet{
     private RequestDataBase requestDataBase = new RequestDataBase();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = writeRequestToDB(req, resp);
-        Process.setResp(resp, req.getHeader("origin"));
-        resp.getWriter().close(); // 返回前端数据
-        autoGenerate(req); // 生成拓扑
         String[] part = req.getParameter("nodes").split("-");
+        Optional<String> alg = Arrays.stream(req.getParameterValues("algorithms")).reduce((a, b) -> a + "," + b);
+        try {
+            // 设置参数
+            requestDataBase.updateRequestArguments(id, "algorithms=" + alg.get() + "&snodes="
+                    + req.getParameter("nodes") + "&resourceRatio=" + req.getParameter("resourceRatio")
+            + "&nodeRatio=" + req.getParameter("nodeRatio"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 设置参数
+        Process.setResp(resp, req.getHeader("origin"));
+        Constants.WRITE_RESOURCE = (Constants.WRITE_FILE = "results/data/" + String.valueOf(id) + File.separator);
+        if (!Files.exists(Paths.get(Constants.WRITE_RESOURCE))) {
+            Files.createDirectory(Paths.get(Constants.WRITE_RESOURCE));
+        }
+        // 算法分析
         Thread t = new Thread(new Task(req.getParameterValues("algorithms"), part,
                 Double.valueOf(req.getParameter("resourceRatio")),
                         Double.valueOf(req.getParameter("nodeRatio")), id));
@@ -58,16 +79,21 @@ public class HandleOneStage extends HttpServlet{
 
         @Override
         public void run() {
+            // 自动生成拓扑
+            System.out.println("自动生成文件");
+            autoGenerate(min, maxExclude, step, resourceRatio, nodeRatio);
+            System.out.println("开始测试");
+            // 开始测试
             for (int i = min; i < maxExclude; i+=step) {
-                String filename = "topology_" + i + "_" +  resourceRatio + "_" + nodeRatio + ".xml";
+                String filename = Constants.WRITE_FILE + "topology_" + i + "_" +  resourceRatio + "_" + nodeRatio + ".xml";
                 if (algorithms.contains("RCRGF")) {
                     simulationRCRGFAdapter.doRCRGF(filename, id, type);
                 }
-                if (algorithms.contains("Greedy")) {
-                    simulationRCRGFAdapter.doGreedy(filename, id, type);
-                }
                 if (algorithms.contains("subgrapIsomorphism")) {
                     simulationRCRGFAdapter.doSubgraph(filename, id, type);
+                }
+                if (algorithms.contains("Greedy")) {
+                    simulationRCRGFAdapter.doGreedy(filename, id, type);
                 }
             }
             // 计算后更新数据库状态
@@ -98,18 +124,14 @@ public class HandleOneStage extends HttpServlet{
         return current_id;
     }
 
-    private void autoGenerate(HttpServletRequest req) throws IOException {
-        // 获取参数 生成测试用例
-        String snodes = req.getParameter("nodes");
-        String[] part = snodes.split("-");
-        int min = Integer.valueOf(part[0]);
-        int maxExclude = Integer.valueOf(part[1]);
-        int step = Integer.valueOf(part[2]);
-        double resourceRatio = Double.valueOf(req.getParameter("resourceRatio"));
-        double nodeRatio = Double.valueOf(req.getParameter("nodeRatio"));
+    private void autoGenerate(int min, int maxExclude, int step, double resourceRatio, double nodeRatio) {
         ToGenRCRGFAdapter toGenRCRGFAdapter = new ToGenRCRGFAdapter();
-        for (int i = min; i < maxExclude; i+=step) {
-            toGenRCRGFAdapter.generateFile(i, resourceRatio, nodeRatio);
+        try {
+            for (int i = min; i < maxExclude; i += step) {
+                toGenRCRGFAdapter.generateFile(i, resourceRatio, nodeRatio);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

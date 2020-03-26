@@ -5,7 +5,7 @@ function taskQueueUpdate(tableDom, data) {
      * {"data":[{"algorithm":"algorithm","date":"2020-03-07 23:52:01","id":74,"status":"在执行中","type":"手动分析"},{"algorithm":"algorithm","date":"2020-03-07 21:08:25","id":73,"status":"映射成功","type":"手动分析"},{"algorithm":"algorithm","date":"2020-03-07 21:07:57","id":72,"status":"映射成功","type":"手动分析"},{"algorithm":"algorithm","date":"2020-03-07 21:07:25","id":71,"status":"映射成功","type":"手动分析"},{"algorithm":"algorithm","date":"2020-03-07 20:54:58","id":70,"status":"映射成功","type":"手动分析"},{"algorithm":"algorithm","date":"2020-03-07 20:54:34","id":69,"status":"映射成功","type":"手动分析"}],"total":6}
      */
     var tab = '';
-    var header = '<tr style="color: rgb(209, 73, 78);"><td>时间</td><td>类型</td><td>算法</td>' +
+    var header = '<tr style="color: rgb(209, 73, 78);"><td>时间</td><td>类型</td>' +
         '<td>状态</td><td>结果</td><td>操作</td></tr>';
     // 填充数据
     var content = data['data'];
@@ -14,7 +14,7 @@ function taskQueueUpdate(tableDom, data) {
     } else {
         tab += header;
         for (var i = 0; i < content.length; i++) {
-            var line = templateTr().format(content[i].date, content[i].type, content[i].algorithm, statusLabel(content[i].status), content[i].status,
+            var line = templateTr().format(content[i].date, content[i].type, statusLabel(content[i].status), content[i].status,
                 (content[i].status == '在执行中' || content[i].status == '请求异常') ? 'btn btn-secondary disabled' : 'btn btn-primary',
                 content[i].type == '手动分析' ? 'display:none' : '', content[i].id, (content[i].status == '在执行中' || content[i].status == '请求异常')
                     ? 'btn btn-secondary disabled' : 'btn btn-primary', content[i].id, content[i].id);
@@ -53,9 +53,9 @@ function renderPagination(jqueryObj, total, f) {
 }
 
 function templateTr() {
-    return '<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><span class="{3}">{4}</span></td><td><button class="{5}" style="color: black;{6}">查看</button>' +
-        '<button onclick="download({7})" class="{8}" style="color: black">下载</button></td><td><button class="btn btn-danger" onclick="deleteRequest({9})">删除</button>' +
-        '<button class="btn btn-success" onclick="getArguments({10})">参数</button></td></tr>';
+    return '<tr><td>{0}</td><td>{1}</td><td><span class="{2}">{3}</span></td><td><button class="{4}" style="color: black;{5}">查看</button>' +
+        '<button onclick="download({6})" class="{7}" style="color: black">下载</button></td><td><button class="btn btn-danger" onclick="deleteRequest({8})">删除</button>' +
+        '<button class="btn btn-success" onclick="getArguments({9})">参数</button></td></tr>';
 }
 
 function statusLabel(status) {

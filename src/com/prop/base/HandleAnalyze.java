@@ -56,7 +56,6 @@ public class HandleAnalyze extends HttpServlet{
             e.printStackTrace();
         }
         Process.setResp(resp, req.getHeader("origin"));
-        resp.getWriter().close(); // 提前返回响应
         // 将文件写入本地
         String uploadPath = req.getServletContext().getRealPath("./") + File.separator + UPLOAD_DIR + File.separator + String.valueOf(current_id);
         String targetFile = uploadFile((FileItem) map.get("file"), uploadPath);

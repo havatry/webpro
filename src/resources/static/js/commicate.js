@@ -12,6 +12,17 @@ function RequestPostVoid(url, data, func) {
     });
 }
 
+function RequestPostXVoid(url, data, func) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        dataType: "json",
+        xhrFields: {withCredentials: true},
+        error: func
+    });
+}
+
 function RequestPost(url, data, func) {
     $.ajax({
         type: "POST",

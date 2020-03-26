@@ -151,15 +151,10 @@
 
     // 下载结果
     function download(id) {
-//        window.open("http://localhost:8080/download?id="+id, "_blank");
-//        var url = "http://localhost:8080/download";
-//        var form = $("<form></form>").attr("action", url).attr("method", "post");
-//        form.append($("<input></input>").attr("type", "hidden").attr("name", "id").attr("value", id));
-//        form.appendTo('body').submit().remove();
-//        alert('下载完成');
-        RequestPostX("http://localhost:8080/download", {id:6}, function (data) {
-            alert("获取数据");
-        })
+        var url = "http://localhost:8080/download";
+        var form = $("<form></form>").attr("action", url).attr("method", "post");
+        form.append($("<input></input>").attr("type", "hidden").attr("name", "id").attr("value", id));
+        form.appendTo('body').submit().remove();
     }
 
     function checkCookie() {
@@ -220,10 +215,14 @@
     }
 
     function submit_onestage() {
-        var form_handle = document.getElementById('onestage_analyze');
-        form_handle.submit();
-        $("#experiment1").on("hidden.bs.modal", function () {
-            $(this).removeData("bs.modal");
+        var doc = document.getElementById("onestage_analyze");
+        RequestPostXVoid("http://localhost:8080/handle/onestage", $("#onestage_analyze").serialize(), function () {
+            flush(true);
+        });
+        // 擦除数据
+        $('#experiment1').modal('hide');
+        $('#experiment1').on('hidden.bs.modal', function () {
+            doc.reset();
         })
     }
 
