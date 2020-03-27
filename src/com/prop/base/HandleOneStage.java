@@ -85,6 +85,7 @@ public class HandleOneStage extends HttpServlet{
             System.out.println("开始测试");
             // 开始测试
             for (int i = min; i < maxExclude; i+=step) {
+                System.out.println("Test: " + i);
                 String filename = Constants.WRITE_FILE + "topology_" + i + "_" +  resourceRatio + "_" + nodeRatio + ".xml";
                 if (algorithms.contains("RCRGF")) {
                     simulationRCRGFAdapter.doRCRGF(filename, id, type);
@@ -128,6 +129,7 @@ public class HandleOneStage extends HttpServlet{
         ToGenRCRGFAdapter toGenRCRGFAdapter = new ToGenRCRGFAdapter();
         try {
             for (int i = min; i < maxExclude; i += step) {
+                System.out.println("Process: " + i);
                 toGenRCRGFAdapter.generateFile(i, resourceRatio, nodeRatio);
             }
         } catch (IOException e) {

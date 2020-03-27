@@ -29,12 +29,13 @@ public class DownloadResult extends HttpServlet{
             return;
         }
         // 将目录打包
-        File file = new File("results/data/" + String.valueOf(id));
         String targetFilePath = "results/data/" + String.valueOf(id) + ".zip";
-        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(targetFilePath));
-        ZipWrite.compress(file, zos, file.getName(), true);
+        if (!new File(targetFilePath).exists()) {
+            File file = new File("results/data/" + String.valueOf(id));
+            ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(targetFilePath));
+            ZipWrite.compress(file, zos, file.getName(), true);
+        }
         // 将压缩包发送给前端
-//        Process.setResp(resp, req.getHeader("origin"));
         resp.setContentType("application/octet-stream");
         resp.setHeader("Content-Disposition", "attachment;filename=" + String.valueOf(id) + ".zip");
         ServletOutputStream out = resp.getOutputStream();
@@ -45,6 +46,7 @@ public class DownloadResult extends HttpServlet{
             // 还存在数据
             out.write(buffer, 0, len);
         }
+        out.flush();
         out.close();
     }
 }

@@ -1,4 +1,4 @@
-// 用于提交ajax的请求
+// 表单文件请求无返回值
 function RequestPostVoid(url, data, func) {
     $.ajax({
         type: "POST",
@@ -12,6 +12,7 @@ function RequestPostVoid(url, data, func) {
     });
 }
 
+// x-www请求无返回值
 function RequestPostXVoid(url, data, func) {
     $.ajax({
         type: "POST",
@@ -23,6 +24,7 @@ function RequestPostXVoid(url, data, func) {
     });
 }
 
+// 表单文件请求有返回值
 function RequestPost(url, data, func) {
     $.ajax({
         type: "POST",
@@ -39,6 +41,7 @@ function RequestPost(url, data, func) {
     });
 }
 
+// x-www请求有返回值
 function RequestPostX(url, data, func) {
     $.ajax({
         type: "POST",

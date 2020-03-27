@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -81,5 +83,15 @@ public class Process {
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Access-Control-Allow-Origin", origin);
         resp.addHeader("Access-Control-Allow-Credentials", "true");
+    }
+
+    public static Map<String, String> asUrlMap(String arguments) {
+        Map<String, String> map = new HashMap<>();
+        String[] arg = arguments.split("&");
+        for (String item : arg) {
+            String[] pair = item.split("=");
+            map.put(pair[0].trim(), pair[1].trim());
+        }
+        return map;
     }
 }
