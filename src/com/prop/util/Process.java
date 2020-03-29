@@ -114,4 +114,11 @@ public class Process {
         }
         return current_id;
     }
+
+    public static double parseFraction(String fra) {
+        // 解析出分数
+        double a = Double.valueOf(fra.split("/")[0].trim());
+        double b = Double.valueOf(fra.split("/")[1].trim());
+        return a / b;
+    }
 }
