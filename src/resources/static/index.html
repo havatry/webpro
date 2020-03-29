@@ -233,10 +233,14 @@
     }
 
     function submit_twostage() {
-        var form_handle = document.getElementById('twostage_analyze');
-        form_handle.submit();
-        $("#experiment2").on("hidden.bs.modal", function () {
-            $(this).removeData("bs.modal");
+        var doc = document.getElementById("twostage_analyze");
+        RequestPostXVoid("http://localhost:8080/handle/twostage", $("#twostage_analyze").serialize(), function () {
+            flush(true);
+        });
+        // 擦除数据
+        $('#experiment2').modal('hide');
+        $('#experiment2').on('hidden.bs.modal', function () {
+            doc.reset();
         })
     }
 
