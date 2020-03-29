@@ -28,11 +28,12 @@ public class HandleOneStage extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = writeRequestToDB(req, resp);
+        String[] algorithms = req.getParameterValues("algorithms");
+        Optional<String> alg = Arrays.stream(algorithms).reduce((a, b) -> a + "," + b);
+        int id = Process.writeRequestToDB(req, resp, "一阶段实验", alg.get());
         String[] part = req.getParameter("nodes").split("-");
-        Optional<String> alg = Arrays.stream(req.getParameterValues("algorithms")).reduce((a, b) -> a + "," + b);
         try {
-            // 设置参数
+            // 设置上下文参数
             requestDataBase.updateRequestArguments(id, "algorithms=" + alg.get() + "&snodes="
                     + req.getParameter("nodes") + "&resourceRatio=" + req.getParameter("resourceRatio")
             + "&nodeRatio=" + req.getParameter("nodeRatio"));
@@ -41,8 +42,8 @@ public class HandleOneStage extends HttpServlet{
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        // 设置参数
         Process.setResp(resp, req.getHeader("origin"));
+        // 设置路径
         Constants.WRITE_RESOURCE = (Constants.WRITE_FILE = "results/data/" + String.valueOf(id) + File.separator);
         if (!Files.exists(Paths.get(Constants.WRITE_RESOURCE))) {
             Files.createDirectory(Paths.get(Constants.WRITE_RESOURCE));

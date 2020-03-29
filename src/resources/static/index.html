@@ -40,7 +40,7 @@
             <div class="navbar-header col-md-2" data-toggle="modal" data-target="#experiment2">
                 <a class="navbar-brand" href="#">二阶段协调实验</a>
             </div>
-            <form class="navbar-form navbar-left col-md-3 col-md-push-3" role="search">
+            <form class="navbar-form navbar-left col-md-3 col-md-push-2" role="search">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search Tasks">
                 </div>
@@ -48,6 +48,7 @@
                 <div id="loginStatus" style="display: inline">
                     <!--<button style="margin-left: 10px">登录</button>-->
                 </div>
+                <button>帮助</button>
             </form>
         </div>
     </nav>
@@ -68,6 +69,7 @@
 <div id="twoStage"></div>
 <!-- 实验对比查看 -->
 <div id="compareResult"></div>
+<!--登陆页面-->
 <div id="loginModal"></div>
 <!-- 底边栏 -->
 <div id="footer">
@@ -231,10 +233,14 @@
     }
 
     function submit_twostage() {
-        var form_handle = document.getElementById('twostage_analyze');
-        form_handle.submit();
-        $("#experiment2").on("hidden.bs.modal", function () {
-            $(this).removeData("bs.modal");
+        var doc = document.getElementById("twostage_analyze");
+        RequestPostXVoid("http://localhost:8080/handle/twostage", $("#twostage_analyze").serialize(), function () {
+            flush(true);
+        });
+        // 擦除数据
+        $('#experiment2').modal('hide');
+        $('#experiment2').on('hidden.bs.modal', function () {
+            doc.reset();
         })
     }
 
