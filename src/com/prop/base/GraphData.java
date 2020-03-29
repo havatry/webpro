@@ -1,7 +1,6 @@
 package com.prop.base;
 
 import com.alibaba.fastjson.JSON;
-import com.prop.bean.Record;
 import com.prop.util.Process;
 import com.prop.util.RequestDataBase;
 
@@ -12,13 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,10 +41,10 @@ public class GraphData extends HttpServlet{
             } else {
                 map.put("Greedy", 0);
             }
-            if (arguments.indexOf("subgraphIsomorphism") > 0) {
-                map.put("subgraphIsomorphism", 1);
+            if (arguments.indexOf("SubgraphIsomorphism") > 0) {
+                map.put("SubgraphIsomorphism", 1);
             } else {
-                map.put("subgraphIsomorphism", 0);
+                map.put("SubgraphIsomorphism", 0);
             }
             if (arguments.indexOf("RCRGF") > 0) {
                 map.put("RCRGF", 1);
