@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 对cookie统一处理
@@ -93,5 +90,28 @@ public class Process {
             map.put(pair[0].trim(), pair[1].trim());
         }
         return map;
+    }
+
+    /**
+     * 将用户的请求写入数据库，此时状态是在执行中，上下文参数并没有设置
+     * @param req
+     * @param resp
+     * @param type
+     * @param algorithmStr 组合后的算法名称
+     * @return
+     */
+    public static int writeRequestToDB(HttpServletRequest req, HttpServletResponse resp, String type, String algorithmStr) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String uid = parseUid(req, resp);
+        int current_id = 0;
+        RequestDataBase requestDataBase = new RequestDataBase();
+        try {
+            current_id = requestDataBase.insertRequest(type, algorithmStr, uid, sdf.format(new Date()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return current_id;
     }
 }
