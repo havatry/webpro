@@ -101,7 +101,7 @@ public class HandleAnalyze extends HttpServlet{
             AlgorithmParameter algorithmParameter = new AlgorithmParameter();
             algorithmParameter.put("linkMapAlgorithm", "bfs");
             algorithmParameter.put("distanceConstraint", "70.0");
-            algorithmParameter.put("advanced", "false");
+            algorithmParameter.put("Advanced", "false");
             algorithmParameter.put("eppstein", "false");
             algorithmParameter.put("AEFAdvanced", "true");
             return algorithmParameter;
@@ -110,6 +110,7 @@ public class HandleAnalyze extends HttpServlet{
         @Override
         public void run() {
             AlgorithmParameter parameter = initParam();
+//            parameter.put("Advanced", "false");
             AbstractAlgorithm abstractAlgorithm = null;
             switch (algorithm) {
                 case "AEF_Baseline":
@@ -122,7 +123,6 @@ public class HandleAnalyze extends HttpServlet{
                     SimulationRCRGFAdapter simulationRCRGFAdapter = new SimulationRCRGFAdapter();
                     // 执行完成更新数据库记录
                     updateDBStatus(id, simulationRCRGFAdapter.doRCRGF(filename, id, "手动分析"));
-                    System.out.println("task 执行完成");
                     return;
                 case "SubgraphIsomorphism":
                     abstractAlgorithm = new SubgraphIsomorphismStackAlgorithm(parameter);
