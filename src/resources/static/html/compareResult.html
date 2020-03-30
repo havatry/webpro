@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
+<script type="text/javascript">
+    $(function () {
+        $(".modal-title").html(sessionStorage.getItem("type"));
+    })
+</script>
 <div class="modal fade" id="look" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -9,7 +14,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title">
-                    一阶段实验数据查看
+                    <!--一阶段实验数据查看-->
                 </h4>
             </div>
             <div class="modal-body" id="graph" style="width: 800px;height:400px;">

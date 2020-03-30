@@ -14,10 +14,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @WebServlet("/look")
 public class GraphData extends HttpServlet{
@@ -25,6 +22,15 @@ public class GraphData extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String type = req.getParameter("type");
+        if (Objects.equals(type, "一阶段实验")) {
+            oneStageData(req, resp);
+        } else if (Objects.equals(type, "二阶段协调实验")) {
+            //
+        }
+    }
+
+    private void oneStageData(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 获取id和cookie
         int id = Integer.valueOf(req.getParameter("id"));
         Path p = Paths.get("results/data/" + String.valueOf(id));
@@ -146,5 +152,9 @@ public class GraphData extends HttpServlet{
         PrintWriter out = resp.getWriter();
         out.println(JSON.toJSONString(map));
         out.close();
+    }
+
+    private void twoStageData(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
     }
 }

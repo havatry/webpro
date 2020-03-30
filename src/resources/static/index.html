@@ -244,11 +244,12 @@
         })
     }
 
-    function look(id) {
+    function look(id, type) {
         // 打开Echarts框
 //        $("#look").modal("show");
 //        setTimeout("open_chart()", 100);
-        RequestGetX("http://localhost:8080/look", {id: id}, function (data) {
+        sessionStorage.setItem("type", type);
+        RequestGetX("http://localhost:8080/look", {id: id, type: type}, function (data) {
 //            alert(JSON.stringify(data));
             $("#look").modal("show");
             setTimeout(function () {
@@ -279,6 +280,31 @@
 //
 //	})
 
+    itemStyle_red = {
+        normal : {
+            color:'#FF0000',  // 红色
+            lineStyle:{
+                color:'#FF0000'
+            }
+        }
+    };
+    itemStyle_blue = {
+        normal : {
+            color:'#0000FF',  // 蓝色
+            lineStyle:{
+                color:'#0000FF'
+            }
+        }
+    };
+    itemStyle_green = {
+        normal : {
+            color:'#00FF00',  // 绿色
+            lineStyle:{
+                color:'#00FF00'
+            }
+        }
+    };
+
     function oneStageEchartsOptionTemplate(xAxis, legend, RE, RA, RR, SE, SA, SR, GE, GA, GR) {
         option = {
             grid: [
@@ -307,14 +333,7 @@
                 {
                     name: 'RCRGF',
                     type: 'line',
-                    itemStyle : {
-                        normal : {
-                            color:'#FF0000',  // 红色
-                            lineStyle:{
-                                color:'#FF0000'
-                            }
-                        }
-                    },
+                    itemStyle : itemStyle_red,
                     smooth: true,
                     xAxisIndex: 1,
                     yAxisIndex: 1,
@@ -326,14 +345,7 @@
                     xAxisIndex: 1,
                     yAxisIndex: 1,
                     smooth: true,
-                    itemStyle : {
-                        normal : {
-                            color:'#00FF00',  // 绿色
-                            lineStyle:{
-                                color:'#00FF00'
-                            }
-                        }
-                    },
+                    itemStyle : itemStyle_green,
                     data: SE
                 },
                 {
@@ -342,14 +354,7 @@
                     xAxisIndex: 1,
                     yAxisIndex: 1,
                     smooth: true,
-                    itemStyle : {
-                        normal : {
-                            color:'#0000FF',  // 蓝色
-                            lineStyle:{
-                                color:'#0000FF'
-                            }
-                        }
-                    },
+                    itemStyle : itemStyle_blue,
                     data: GE
                 },
                 {
@@ -358,14 +363,7 @@
                     xAxisIndex: 0,
                     yAxisIndex: 0,
                     symbolSize: 5,
-                    itemStyle : {
-                        normal : {
-                            color:'#FF0000',  // 红色
-                            lineStyle:{
-                                color:'#FF0000'
-                            }
-                        }
-                    },
+                    itemStyle : itemStyle_red,
                     data: RA
                 },
                 {
@@ -374,14 +372,7 @@
                     xAxisIndex: 0,
                     yAxisIndex: 0,
                     symbolSize: 5,
-                    itemStyle : {
-                        normal : {
-                            color:'#00FF00',  // 绿色
-                            lineStyle:{
-                                color:'#00FF00'
-                            }
-                        }
-                    },
+                    itemStyle : itemStyle_green,
                     data: SA
                 },
                 {
@@ -390,14 +381,7 @@
                     xAxisIndex: 0,
                     yAxisIndex: 0,
                     symbolSize: 5,
-                    itemStyle : {
-                        normal : {
-                            color:'#0000FF',  // 蓝色
-                            lineStyle:{
-                                color:'#0000FF'
-                            }
-                        }
-                    },
+                    itemStyle : itemStyle_blue,
                     data: GA
                 },
                 {
@@ -406,14 +390,7 @@
                     xAxisIndex: 2,
                     yAxisIndex: 2,
                     symbolSize: 5,
-                    itemStyle : {
-                        normal : {
-                            color:'#FF0000',  // 红色
-                            lineStyle:{
-                                color:'#FF0000'
-                            }
-                        }
-                    },
+                    itemStyle : itemStyle_red,
                     data: RR
                 },
                 {
@@ -422,14 +399,7 @@
                     xAxisIndex: 2,
                     yAxisIndex: 2,
                     symbolSize: 5,
-                    itemStyle : {
-                        normal : {
-                            color:'#00FF00',  // 绿色
-                            lineStyle:{
-                                color:'#00FF00'
-                            }
-                        }
-                    },
+                    itemStyle : itemStyle_green,
                     data: SR
                 },
                 {
@@ -438,19 +408,103 @@
                     xAxisIndex: 2,
                     yAxisIndex: 2,
                     symbolSize: 5,
-                    itemStyle : {
-                        normal : {
-                            color:'#0000FF',  // 蓝色
-                            lineStyle:{
-                                color:'#0000FF'
-                            }
-                        }
-                    },
+                    itemStyle : itemStyle_blue,
                     data: GR
                 },
             ]
         };
         return option;
+    }
+    
+    function twoStageEchartsOptionTemplate() {
+        option = {
+            grid: [
+                {x: '7%', y: '7%', width: '38%', height: '38%'},
+                {x2: '7%', y: '7%', width: '38%', height: '38%'},
+                {x: '7%', y2: '7%', width: '38%', height: '38%'},
+                {x2: '7%', y2: '7%', width: '38%', height: '38%'}
+            ],
+            tooltip: {
+                formatter: 'Group {a}: ({c})'
+            },
+            xAxis: [
+                {gridIndex: 0, boundaryGap: false, data: xAxis, type: 'category'},
+                {gridIndex: 1, boundaryGap: false, data: xAxis, type: 'category'},
+                {gridIndex: 2, boundaryGap: false, data: xAxis, type: 'category'},
+                {gridIndex: 3, boundaryGap: false, data: xAxis, type: 'category'}
+            ],
+            yAxis: [
+                {gridIndex: 0, name: "Acceptance Ratio"},
+                {gridIndex: 1, name: "Execution Time"},
+                {gridIndex: 2, name: "CostToRevenue Ratio"},
+                {gridIndex: 3, name: "Standard Deviation"}
+            ],
+            series: [
+                {
+                    name: 'AEF_Advance',
+                    type: 'line',
+                    itemStyle : itemStyle_red,
+                    smooth: true,
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    data: AAE
+                },
+                {
+                    name: 'AEF_Baseline',
+                    type: 'line',
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    smooth: true,
+                    itemStyle : itemStyle_green,
+                    data: ABE
+                },
+                {
+                    name: 'Greedy',
+                    type: 'line',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    smooth: true,
+                    itemStyle : itemStyle_blue,
+                    data: GE
+                },
+                {
+                    name: 'I',
+                    type: 'scatter',
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    data: dataAll[0],
+                    markLine: markLineOpt
+                },
+                {
+                    name: 'II',
+                    type: 'scatter',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    data: dataAll[1],
+                    markLine: markLineOpt
+                },
+                {
+                    name: 'III',
+                    type: 'scatter',
+                    xAxisIndex: 2,
+                    yAxisIndex: 2,
+                    data: dataAll[2],
+                    markLine: markLineOpt
+                },
+                {
+                    name: 'IV',
+                    type: 'scatter',
+                    xAxisIndex: 3,
+                    yAxisIndex: 3,
+                    data: dataAll[3],
+                    markLine: markLineOpt
+                }
+            ]
+        };
+    }
+
+    function open_chart_2() {
+
     }
 
 	function open_chart() {

@@ -66,7 +66,6 @@ public class HandleTwoStage extends HttpServlet{
         if (!Files.exists(Paths.get(Constants.resultDir))) {
             Files.createDirectory(Paths.get(Constants.resultDir));
         }
-
         // 执行算法
         Thread t = new Thread(() -> {
             // 自动生成测试
