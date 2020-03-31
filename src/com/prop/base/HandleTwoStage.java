@@ -91,7 +91,7 @@ public class HandleTwoStage extends HttpServlet{
                 new RunAEFAdapter().process(new CoordinatedMapping(parameter), fileName,
                         id, "二阶段协调实验", total);
             }
-            if (algorithmFlat.indexOf("subgrapIsomorphism") > -1) {
+            if (algorithmFlat.indexOf("SubgraphIsomorphism") > -1) {
                 new RunAEFAdapter().process(new SubgraphIsomorphismStackAlgorithm(parameter), fileName,
                         id, "二阶段协调实验", total);
             }
