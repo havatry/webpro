@@ -30,7 +30,7 @@ public class HandleOneStage extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String[] algorithms = req.getParameterValues("algorithms");
         Optional<String> alg = Arrays.stream(algorithms).reduce((a, b) -> a + "," + b);
-        int id = Process.writeRequestToDB(req, resp, "一阶段实验", alg.get());
+        int id = Process.writeRequestToDB(req, resp, "一阶段实验");
         String[] part = req.getParameter("nodes").split("-");
         try {
             // 设置上下文参数
@@ -108,22 +108,6 @@ public class HandleOneStage extends HttpServlet{
             }
             System.out.println("一阶段实验task 执行完成");
         }
-    }
-
-    private int writeRequestToDB(HttpServletRequest req, HttpServletResponse resp) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String uid = Process.parseUid(req, resp);
-        String[] algorithms = req.getParameterValues("algorithms");
-        Optional<String> optional = Arrays.stream(algorithms).reduce((a, b) -> a + "," + b);
-        int current_id = 0;
-        try {
-            current_id = requestDataBase.insertRequest("一阶段实验", optional.get(), uid, sdf.format(new Date()));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return current_id;
     }
 
     private void autoGenerate(int min, int maxExclude, int step, double resourceRatio, double nodeRatio) {

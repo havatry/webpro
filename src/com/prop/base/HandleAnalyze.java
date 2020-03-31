@@ -49,7 +49,7 @@ public class HandleAnalyze extends HttpServlet{
         // 插入请求到数据库
         int current_id = 0;
         try {
-            current_id = requestDataBase.insertRequest("手动分析", algorithm, uid, sdf.format(new Date()));
+            current_id = requestDataBase.insertRequest("手动分析", uid, sdf.format(new Date()));
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

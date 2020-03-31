@@ -97,16 +97,15 @@ public class Process {
      * @param req
      * @param resp
      * @param type
-     * @param algorithmStr 组合后的算法名称
      * @return
      */
-    public static int writeRequestToDB(HttpServletRequest req, HttpServletResponse resp, String type, String algorithmStr) {
+    public static int writeRequestToDB(HttpServletRequest req, HttpServletResponse resp, String type) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String uid = parseUid(req, resp);
         int current_id = 0;
         RequestDataBase requestDataBase = new RequestDataBase();
         try {
-            current_id = requestDataBase.insertRequest(type, algorithmStr, uid, sdf.format(new Date()));
+            current_id = requestDataBase.insertRequest(type, uid, sdf.format(new Date()));
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

@@ -39,15 +39,14 @@ public class RequestDataBase {
     }
 
     // 插入前端请求并返回自增id
-    public int insertRequest(String type, String algorithm, String uid, String date) throws SQLException, ClassNotFoundException {
-        String sql = "insert into request(type, status, algorithm, create_time, operator) values (?, ?, ?, ?, ?)";
+    public int insertRequest(String type, String uid, String date) throws SQLException, ClassNotFoundException {
+        String sql = "insert into request(type, status, create_time, operator) values (?, ?, ?, ?)";
         Connection connection = connect();
         PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, type);
         preparedStatement.setString(2, "在执行中");
-        preparedStatement.setString(3, algorithm);
-        preparedStatement.setString(4, date);
-        preparedStatement.setString(5, uid);
+        preparedStatement.setString(3, date);
+        preparedStatement.setString(4, uid);
         preparedStatement.executeUpdate();
         ResultSet resultSet = preparedStatement.getGeneratedKeys();
         resultSet.next();
@@ -103,7 +102,6 @@ public class RequestDataBase {
             Record record = new Record();
             record.setId(resultSet.getInt("id"));
             record.setDate(resultSet.getString("create_time"));
-            record.setAlgorithm(resultSet.getString("algorithm"));
             record.setStatus(resultSet.getString("status"));
             record.setType(resultSet.getString("type"));
             records.add(record);
@@ -172,5 +170,34 @@ public class RequestDataBase {
             // 找不到
             return null;
         }
+    }
+
+    // 搜索框查询
+    public List<Record> queryRecords(String start, String end, String str, String uid) throws SQLException, ClassNotFoundException {
+        if (start == null) {
+            start = "2020-01-01 00:00:00";
+        }
+        if (end == null) {
+            end = "2030-01-01 00:00:00";
+        }
+        String sql = "select * from request where create_time >= ? and create_time <= ? and operation = ? and " +
+                "(type like ? or status like ?) order by create_time desc";
+        Connection connection = connect();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, start);
+        preparedStatement.setString(2, end);
+        preparedStatement.setString(3, uid);
+        preparedStatement.setString(4, str);
+        preparedStatement.setString(5, str);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Record> list = new ArrayList<>();
+        while (resultSet.next()) {
+            Record record = new Record();
+            record.setId(resultSet.getInt("id"));
+            record.setStatus(resultSet.getString("status"));
+            record.setDate(resultSet.getString("create_time"));
+            record.setType(resultSet.getString("type"));
+        }
+        return list;
     }
 }

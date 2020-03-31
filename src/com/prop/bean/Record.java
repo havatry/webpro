@@ -8,7 +8,6 @@ public class Record {
     private String type;
     private String date;
     private String status;
-    private String algorithm;
 
     public int getId() {
         return id;
@@ -40,13 +39,5 @@ public class Record {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getAlgorithm() {
-        return algorithm;
-    }
-
-    public void setAlgorithm(String algorithm) {
-        this.algorithm = algorithm;
     }
 }
