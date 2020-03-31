@@ -173,22 +173,28 @@ public class RequestDataBase {
     }
 
     // 搜索框查询
-    public List<Record> queryRecords(String start, String end, String str, String uid) throws SQLException, ClassNotFoundException {
+    public List<Record> queryRecords(String start, String end, String type, String status, String uid) throws SQLException, ClassNotFoundException {
         if (start == null) {
             start = "2020-01-01 00:00:00";
+        } else {
+            start = String.format("%s-%s-%s 00:00:00", start.substring(0, 4), start.substring(4, 6), start.substring(6, 8));
         }
         if (end == null) {
             end = "2030-01-01 00:00:00";
+        } else {
+            end = String.format("%s-%s-%s 00:00:00", end.substring(0, 4), end.substring(4, 6), end.substring(6, 8));
         }
-        String sql = "select * from request where create_time >= ? and create_time <= ? and operation = ? and " +
-                "(type like ? or status like ?) order by create_time desc";
+        type = '%' + type +'%';
+        status = '%' + status + '%';
+        String sql = "select * from request where create_time >= ? and create_time <= ? and operator = ? and " +
+                "type like ? and status like ? order by create_time desc";
         Connection connection = connect();
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, start);
         preparedStatement.setString(2, end);
         preparedStatement.setString(3, uid);
-        preparedStatement.setString(4, str);
-        preparedStatement.setString(5, str);
+        preparedStatement.setString(4, type);
+        preparedStatement.setString(5, status);
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Record> list = new ArrayList<>();
         while (resultSet.next()) {
@@ -197,6 +203,7 @@ public class RequestDataBase {
             record.setStatus(resultSet.getString("status"));
             record.setDate(resultSet.getString("create_time"));
             record.setType(resultSet.getString("type"));
+            list.add(record);
         }
         return list;
     }

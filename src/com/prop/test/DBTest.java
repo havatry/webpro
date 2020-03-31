@@ -15,7 +15,7 @@ public class DBTest {
         String type = "手动分析";
         String uid = Objects.hash("10.1.2.3") + "" + new Date().getTime();
         RequestDataBase requestDataBase = new RequestDataBase();
-        requestDataBase.insertRequest(type, "RCGRF", uid, "2020-03-03 12:02:03");
+        requestDataBase.insertRequest(type, uid, "2020-03-03 12:02:03");
     }
 
     @Test

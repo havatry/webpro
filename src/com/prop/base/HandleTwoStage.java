@@ -43,7 +43,7 @@ public class HandleTwoStage extends HttpServlet{
 
         // 插入到数据库
         Optional<String> optional = Arrays.stream(algorithm).reduce((a, b) -> a + "," + b);
-        int id = Process.writeRequestToDB(req, resp, "二阶段协调实验", optional.get());
+        int id = Process.writeRequestToDB(req, resp, "二阶段协调实验");
 
         // 设置上下文参数
         String arguments = "algorithms=" + optional.get() + "&resource=" + req.getParameter("resource") +

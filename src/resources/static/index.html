@@ -42,9 +42,9 @@
             </div>
             <form class="navbar-form navbar-left col-md-3 col-md-push-2" role="search">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search Tasks">
+                    <input type="text" class="form-control" id="searchContent" placeholder="Search Tasks">
                 </div>
-                <button type="submit" class="btn btn-primary">搜索</button>
+                <button type="submit" class="btn btn-primary" onclick="search()">搜索</button>
                 <div id="loginStatus" style="display: inline">
                     <!--<button style="margin-left: 10px">登录</button>-->
                 </div>
@@ -119,7 +119,7 @@
             // 获取当前页
             var current = $('#pagination').bootstrapPaginator("getPages")['current']
             RequestGetPage(tabDom, 'http://localhost:8080/fetch?pageNo=' + (current - 1), function (data) {
-                console.log(JSON.stringify(data));
+//                console.log(JSON.stringify(data));
                 taskQueueUpdate(document.getElementById('tab'), data);
                 if (data['autoFlush']) {
                     // 继续调用
@@ -428,7 +428,26 @@
         };
         return option;
     }
-    
+
+    function search() {
+        var c = $("#searchContent").val();
+        if (c.trim() == "") {
+            init();
+        } else {
+            RequestGetX("http://localhost:8080/search/record", {query: c, pageNo: 0}, function (data) {
+                taskQueueUpdate(document.getElementById('tab'), data);
+                var total = Math.max(Math.ceil(data['total'] / 10), 1);
+                renderPagination($('#pagination'), total, function (event, oldPage, newPage) {
+                    RequestGetPage(tabDom, 'http://localhost:8080/search/record?pageNo='+(newPage - 1)+'&query='+c, function (data) {
+//                    console.log(JSON.stringify(data));
+                        taskQueueUpdate(document.getElementById('tab'), data);
+                        flush(data['autoFlush']);
+                    })
+                });
+            });
+        }
+    }
+
     function twoStageEchartsOptionTemplate(xAxis, legend, AAE, ABE, SE, DE, NE, AAA, ABA, SA, DA, NA,
         AACR, ABCR, SCR, DCR, NCR, AASD, ABSD, SSD, DSD, NSD) {
         option = {
