@@ -79,23 +79,23 @@ public class HandleTwoStage extends HttpServlet{
 //            RunAEFAdapter runAEFAdapter = new RunAEFAdapter();
             String algorithmFlat = optional.get();
             AlgorithmParameter parameter = RunAEFAdapter.initParam();
-            if (algorithmFlat.indexOf("AEF_Advance") > 0) {
+            if (algorithmFlat.indexOf("AEF_Advance") > -1) {
                 new RunAEFAdapter().process(new AEFAlgorithm(parameter, true),
                         fileName, id, "二阶段协调实验", total);
             }
-            if (algorithmFlat.indexOf("AEF_Baseline") > 0 ){
+            if (algorithmFlat.indexOf("AEF_Baseline") > -1){
                 new RunAEFAdapter().process(new AEFAlgorithm(parameter, false),
                         fileName, id, "二阶段协调实验", total);
             }
-            if (algorithmFlat.indexOf("D-ViNE_SP") > 0) {
+            if (algorithmFlat.indexOf("D-ViNE_SP") > -1) {
                 new RunAEFAdapter().process(new CoordinatedMapping(parameter), fileName,
                         id, "二阶段协调实验", total);
             }
-            if (algorithmFlat.indexOf("subgrapIsomorphism") > 0) {
+            if (algorithmFlat.indexOf("subgrapIsomorphism") > -1) {
                 new RunAEFAdapter().process(new SubgraphIsomorphismStackAlgorithm(parameter), fileName,
                         id, "二阶段协调实验", total);
             }
-            if (algorithmFlat.indexOf("NRM") > 0) {
+            if (algorithmFlat.indexOf("NRM") > -1) {
                 new RunAEFAdapter().process(new NRMAlgorithm(parameter), fileName, id, "二阶段协调实验", total);
             }
             // 计算后更新数据库状态

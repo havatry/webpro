@@ -246,39 +246,34 @@
 
     function look(id, type) {
         // 打开Echarts框
-//        $("#look").modal("show");
-//        setTimeout("open_chart()", 100);
         sessionStorage.setItem("type", type);
         RequestGetX("http://localhost:8080/look", {id: id, type: type}, function (data) {
 //            alert(JSON.stringify(data));
             $("#look").modal("show");
+            var myChart = echarts.init(document.getElementById('graph'));
+            legend = data["legend"].split(",");
+            xAxis = [];
             setTimeout(function () {
-                ar = data["snodes"].split("-");
-                xAxis = []
-                for (var i = parseInt(ar[0]); i < parseInt(ar[1]); i+= parseInt(ar[2])) {
-                    xAxis.push(i.toString());
+                if (type == "一阶段实验") {
+                    ar = data["snodes"].split("-");
+                    for (var i = parseInt(ar[0]); i < parseInt(ar[1]); i += parseInt(ar[2])) {
+                        xAxis.push(i.toString());
+                    }
+                    option = oneStageEchartsOptionTemplate(xAxis, legend, data["RE"], data["RA"], data["RR"],
+                        data["SE"], data["SA"], data["SR"], data["GE"], data["GA"], data["GR"]);
+                } else if (type == "二阶段协调实验") {
+                    for (var i = 50; i <= parseInt(data["total"]); i+=50) {
+                        xAxis.push(i.toString());
+                    }
+                    option = twoStageEchartsOptionTemplate(xAxis, legend, data["AAE"], data["ABE"], data["SE"],
+                        data["DE"], data["NE"], data["AAA"], data["ABA"], data["SA"], data["DA"], data["NA"],
+                        data["AACR"], data["ABCR"], data["SCR"], data["DCR"], data["NCR"], data["AASD"], data["ABSD"],
+                        data["SSD"], data["DSD"], data["NSD"]);
                 }
-                legend = [];
-                if (data["RCRGF"] == 1) {
-                    legend.push("RCRGF");
-                }
-                if (data["SubgraphIsomorphism"] == 1) {
-                    legend.push("SubgraphIsomorphism");
-                }
-                if (data["Greedy"] == 1) {
-                    legend.push("Greedy");
-                }
-                var myChart = echarts.init(document.getElementById('graph'));
-                option = oneStageEchartsOptionTemplate(xAxis, legend, data["RE"], data["RA"], data["RR"],
-                    data["SE"], data["SA"], data["SR"], data["GE"], data["GA"], data["GR"]);
-                myChart.setOption(option);
+                myChart.setOption(option, true);
             }, 100);
         })
     }
-
-//	$('#look').on('show.bs.modal', function() {
-//
-//	})
 
     itemStyle_red = {
         normal : {
@@ -304,6 +299,22 @@
             }
         }
     };
+    itemStyle_cyan = {
+        normal : {
+            color:'#00FFFF',  // 青色
+            lineStyle:{
+                color:'#00FFFF'
+            }
+        }
+    };
+    itemStyle_violet = {
+        normal : {
+            color:'#FF00FF',  // 紫色
+            lineStyle:{
+                color:'#FF00FF'
+            }
+        }
+    }
 
     function oneStageEchartsOptionTemplate(xAxis, legend, RE, RA, RR, SE, SA, SR, GE, GA, GR) {
         option = {
@@ -416,13 +427,14 @@
         return option;
     }
     
-    function twoStageEchartsOptionTemplate() {
+    function twoStageEchartsOptionTemplate(xAxis, legend, AAE, ABE, SE, DE, NE, AAA, ABA, SA, DA, NA,
+        AACR, ABCR, SCR, DCR, NCR, AASD, ABSD, SSD, DSD, NSD) {
         option = {
             grid: [
-                {x: '7%', y: '7%', width: '38%', height: '38%'},
-                {x2: '7%', y: '7%', width: '38%', height: '38%'},
-                {x: '7%', y2: '7%', width: '38%', height: '38%'},
-                {x2: '7%', y2: '7%', width: '38%', height: '38%'}
+                {x: '10%', y: '15%', width: '38%', height: '30%'},
+                {x2: '0%', y: '15%', width: '38%', height: '30%'},
+                {x: '10%', y2: '7%', width: '38%', height: '30%'},
+                {x2: '0%', y2: '7%', width: '38%', height: '30%'}
             ],
             tooltip: {
                 formatter: 'Group {a}: ({c})'
@@ -439,68 +451,218 @@
                 {gridIndex: 2, name: "CostToRevenue Ratio"},
                 {gridIndex: 3, name: "Standard Deviation"}
             ],
+            legend: {
+                left: "center",
+                data: legend
+            },
             series: [
+                // 执行时间
                 {
                     name: 'AEF_Advance',
                     type: 'line',
                     itemStyle : itemStyle_red,
+                    symbol: 'none',
+                    smooth: true,
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    data: AAE
+                },
+                {
+                    name: 'AEF_Baseline',
+                    type: 'line',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle : itemStyle_green,
+                    data: ABE
+                },
+                {
+                    name: 'subgraphIsomorphism',
+                    type: 'line',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle : itemStyle_blue,
+                    data: SE
+                },
+                {
+                    name: 'D-ViNE_SP',
+                    type: 'line',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle : itemStyle_cyan,
+                    data: DE
+                },
+                {
+                    name: 'NRM',
+                    type: 'line',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle: itemStyle_violet,
+                    data: NE
+                },
+                // 接受率
+                {
+                    name: 'AEF_Advance',
+                    type: 'line',
+                    itemStyle : itemStyle_red,
+                    symbol: 'none',
                     smooth: true,
                     xAxisIndex: 0,
                     yAxisIndex: 0,
-                    data: AAE
+                    data: AAA
                 },
                 {
                     name: 'AEF_Baseline',
                     type: 'line',
                     xAxisIndex: 0,
                     yAxisIndex: 0,
+                    symbol: 'none',
                     smooth: true,
                     itemStyle : itemStyle_green,
-                    data: ABE
+                    data: ABA
                 },
                 {
-                    name: 'Greedy',
+                    name: 'subgraphIsomorphism',
                     type: 'line',
-                    xAxisIndex: 1,
-                    yAxisIndex: 1,
-                    smooth: true,
-                    itemStyle : itemStyle_blue,
-                    data: GE
-                },
-                {
-                    name: 'I',
-                    type: 'scatter',
                     xAxisIndex: 0,
                     yAxisIndex: 0,
-                    data: dataAll[0],
-                    markLine: markLineOpt
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle : itemStyle_blue,
+                    data: SA
                 },
                 {
-                    name: 'II',
-                    type: 'scatter',
-                    xAxisIndex: 1,
-                    yAxisIndex: 1,
-                    data: dataAll[1],
-                    markLine: markLineOpt
+                    name: 'D-ViNE_SP',
+                    type: 'line',
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle : itemStyle_cyan,
+                    data: DA
                 },
                 {
-                    name: 'III',
-                    type: 'scatter',
+                    name: 'NRM',
+                    type: 'line',
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle: itemStyle_violet,
+                    data: NA
+                },
+                // 代价收益比
+                {
+                    name: 'AEF_Advance',
+                    type: 'line',
+                    itemStyle : itemStyle_red,
+                    symbol: 'none',
+                    smooth: true,
                     xAxisIndex: 2,
                     yAxisIndex: 2,
-                    data: dataAll[2],
-                    markLine: markLineOpt
+                    data: AACR
                 },
                 {
-                    name: 'IV',
-                    type: 'scatter',
+                    name: 'AEF_Baseline',
+                    type: 'line',
+                    xAxisIndex: 2,
+                    yAxisIndex: 2,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle : itemStyle_green,
+                    data: ABCR
+                },
+                {
+                    name: 'subgraphIsomorphism',
+                    type: 'line',
+                    xAxisIndex: 2,
+                    yAxisIndex: 2,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle : itemStyle_blue,
+                    data: SCR
+                },
+                {
+                    name: 'D-ViNE_SP',
+                    type: 'line',
+                    xAxisIndex: 2,
+                    yAxisIndex: 2,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle : itemStyle_cyan,
+                    data: DCR
+                },
+                {
+                    name: 'NRM',
+                    type: 'line',
+                    xAxisIndex: 2,
+                    yAxisIndex: 2,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle: itemStyle_violet,
+                    data: NCR
+                },
+                // 标准差
+                {
+                    name: 'AEF_Advance',
+                    type: 'line',
+                    itemStyle : itemStyle_red,
+                    symbol: 'none',
+                    smooth: true,
                     xAxisIndex: 3,
                     yAxisIndex: 3,
-                    data: dataAll[3],
-                    markLine: markLineOpt
+                    data: AASD
+                },
+                {
+                    name: 'AEF_Baseline',
+                    type: 'line',
+                    xAxisIndex: 3,
+                    yAxisIndex: 3,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle : itemStyle_green,
+                    data: ABSD
+                },
+                {
+                    name: 'subgraphIsomorphism',
+                    type: 'line',
+                    xAxisIndex: 3,
+                    yAxisIndex: 3,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle : itemStyle_blue,
+                    data: SSD
+                },
+                {
+                    name: 'D-ViNE_SP',
+                    type: 'line',
+                    xAxisIndex: 3,
+                    yAxisIndex: 3,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle : itemStyle_cyan,
+                    data: DSD
+                },
+                {
+                    name: 'NRM',
+                    type: 'line',
+                    xAxisIndex: 3,
+                    yAxisIndex: 3,
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle: itemStyle_violet,
+                    data: NSD
                 }
             ]
         };
+        return option;
     }
 
     function open_chart_2() {
