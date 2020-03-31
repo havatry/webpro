@@ -99,13 +99,13 @@
     function init() {
         checkCookie();
         RequestGetPageWithDes(tabDom, 'http://localhost:8080/fetch?pageNo=0', function (data) {
-            console.log(JSON.stringify(data));
+//            console.log(JSON.stringify(data));
             taskQueueUpdate(document.getElementById('tab'), data);
             flush(data['autoFlush']);
             var total = Math.max(Math.ceil(data['total'] / 10), 1);
             renderPagination($('#pagination'), total, function (event, oldPage, newPage) {
                 RequestGetPage(tabDom, 'http://localhost:8080/fetch?pageNo='+(newPage - 1), function (data) {
-                    console.log(JSON.stringify(data));
+//                    console.log(JSON.stringify(data));
                     taskQueueUpdate(document.getElementById('tab'), data);
                     flush(data['autoFlush']);
                 })
@@ -199,8 +199,9 @@
                     // 关闭模态框
                     $('#loginPage').modal('hide');
                     // 刷新页面
-                    checkCookie();
-                    flush(true);
+//                    checkCookie();
+//                    flush(true);
+                    init();
                 } else if (type == 'register' && data.msg.indexOf('用户名已存在') > -1) {
                     // 清空
                     document.getElementById('loginForm').reset();
@@ -213,8 +214,9 @@
                 alert(data.msg);
                 if (data.msg == '用户注销成功') {
                     // 刷新页面
-                    checkCookie();
-                    flush(true);
+//                    checkCookie();
+//                    flush(true);
+                    init();
                 }
             })
         }
