@@ -36,7 +36,7 @@ function RequestPost(url, data, func) {
         xhrFields: {withCredentials: true},
         success: func,
         error: function (data) {
-            alert(JSON.stringify(data));
+            alert(data['responseText']);
         }
     });
 }
@@ -51,7 +51,7 @@ function RequestPostX(url, data, func) {
         xhrFields: {withCredentials: true},
         success: func,
         error: function (data) {
-            alert(JSON.stringify(data));
+            alert(data['responseText']);
         }
     });
 }
@@ -104,7 +104,7 @@ function RequestGetX(url, data, func_succ) {
         xhrFields: {withCredentials: true},
         success: func_succ,
         error: function(e){
-            alert(JSON.stringify(e));
+            alert(e['responseText']);
         }
     });
 }
