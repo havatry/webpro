@@ -91,7 +91,7 @@ public class HandleOneStage extends HttpServlet{
                 if (algorithms.contains("RCRGF")) {
                     simulationRCRGFAdapter.doRCRGF(filename, id, type);
                 }
-                if (algorithms.contains("subgrapIsomorphism")) {
+                if (algorithms.contains("SubgraphIsomorphism")) {
                     simulationRCRGFAdapter.doSubgraph(filename, id, type);
                 }
                 if (algorithms.contains("Greedy")) {
