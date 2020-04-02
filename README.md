@@ -9,7 +9,7 @@ virtual network mapping simple web version
 后端 Servlet JDBC
 前端 JQuery Bootstrap
 
-帮助文档:
+帮助文档: 参考wiki
 
 
 所有权利被保留
