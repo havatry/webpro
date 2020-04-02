@@ -1,5 +1,6 @@
 // 表单文件请求无返回值
 function RequestPostVoid(url, data, func) {
+    url = convertUrl(url);
     $.ajax({
         type: "POST",
         url: url,
@@ -14,6 +15,7 @@ function RequestPostVoid(url, data, func) {
 
 // x-www请求无返回值
 function RequestPostXVoid(url, data, func) {
+    url = convertUrl(url);
     $.ajax({
         type: "POST",
         url: url,
@@ -26,6 +28,7 @@ function RequestPostXVoid(url, data, func) {
 
 // 表单文件请求有返回值
 function RequestPost(url, data, func) {
+    url = convertUrl(url);
     $.ajax({
         type: "POST",
         url: url,
@@ -43,6 +46,7 @@ function RequestPost(url, data, func) {
 
 // x-www请求有返回值
 function RequestPostX(url, data, func) {
+    url = convertUrl(url);
     $.ajax({
         type: "POST",
         url: url,
@@ -57,6 +61,7 @@ function RequestPostX(url, data, func) {
 }
 
 function RequestGetPage(dom, url, func_succ) {
+    url = convertUrl(url);
     $.ajax({
         type: "GET",
         url: url,
@@ -76,6 +81,7 @@ function RequestGetPage(dom, url, func_succ) {
 }
 
 function RequestGetPageWithDes(dom, url, func_succ) {
+    url = convertUrl(url);
     $.ajax({
         type: "GET",
         url: url,
@@ -97,6 +103,7 @@ function RequestGetPageWithDes(dom, url, func_succ) {
 }
 
 function RequestGetX(url, data, func_succ) {
+    url = convertUrl(url);
     $.ajax({
         type: "GET",
         url: url,
@@ -108,4 +115,8 @@ function RequestGetX(url, data, func_succ) {
             alert(e['responseText']);
         }
     });
+}
+
+function convertUrl(url) {
+    return url.replace("8080", "8080/webpro");
 }
