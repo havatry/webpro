@@ -31,9 +31,8 @@ public class DownloadResult extends HttpServlet{
         // 将目录打包
         String targetFilePath = "results/data/" + String.valueOf(id) + ".zip";
         if (!new File(targetFilePath).exists()) {
-            File file = new File("results/data/" + String.valueOf(id));
-            ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(targetFilePath));
-            ZipWrite.compress(file, zos, file.getName(), true);
+            String sourceFilePath = "results/data/" + String.valueOf(id);
+            ZipWrite.compress(sourceFilePath, targetFilePath);
         }
         // 将压缩包发送给前端
         resp.setContentType("application/octet-stream");

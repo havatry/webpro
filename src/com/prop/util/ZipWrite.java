@@ -2,6 +2,7 @@ package com.prop.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -12,7 +13,20 @@ import java.util.zip.ZipOutputStream;
 public class ZipWrite {
     private final static int BUFFER_SIZE=1024;
 
-    public static void compress(File source, ZipOutputStream zos, String name, boolean KeepDirStructure) throws IOException {
+    public static void compress(String source, String target) {
+        try {
+            ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(target));
+            File sourceFile = new File(source);
+            // 注意下面使用sourceFile.getName,而不能使用source，否则base是source的绝对路径
+            // 使用sourceFile.getName则使用source的文件名作为base相对路径
+            doCompress(sourceFile, zos, sourceFile.getName(), true);
+            zos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void doCompress(File source, ZipOutputStream zos, String name, boolean KeepDirStructure) throws IOException {
         byte[] buffer=new byte[BUFFER_SIZE];
         if(source.isFile()){//文件操作
             //向zip输出流中加入zip实体
@@ -39,9 +53,9 @@ public class ZipWrite {
                 //目录下有文件
                 for(File file:files){
                     if(KeepDirStructure){
-                        compress(file, zos, name+"/"+file.getName(), KeepDirStructure);
+                        doCompress(file, zos, name+"/"+file.getName(), KeepDirStructure);
                     }else{
-                        compress(file, zos, file.getName(), KeepDirStructure);
+                        doCompress(file, zos, file.getName(), KeepDirStructure);
                     }
                 }
             }
