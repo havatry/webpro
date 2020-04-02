@@ -1,6 +1,7 @@
 function look(id, type) {
     // 打开Echarts框
-    sessionStorage.setItem("type", type);
+    // sessionStorage.setItem("type", type);
+    $(".look-echarts").html(type);
     RequestGetX("http://localhost:8080/look", {id: id, type: type}, function (data) {
 //            alert(JSON.stringify(data));
         $("#look").modal("show");
