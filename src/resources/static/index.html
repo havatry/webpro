@@ -95,6 +95,7 @@
 <script type="text/javascript">
     var interval_handle; // 全局定时器句柄
     var tabDom = document.getElementById('tab');
+    var time_call = 3000; // 3秒轮询一次
 
     // 初始化函数
     function init() {
@@ -107,6 +108,9 @@
             renderPagination($('#pagination'), total, function (event, oldPage, newPage) {
                 RequestGetPage(tabDom, 'http://localhost:8080/fetch?pageNo='+(newPage - 1), function (data) {
 //                    console.log(JSON.stringify(data));
+                    if (data == null) {
+                        return; // 因某些原因 出现获取不到数据，此时不应该刷新页面
+                    }
                     taskQueueUpdate(document.getElementById('tab'), data);
                     flush(data['autoFlush']);
                 })
@@ -117,14 +121,20 @@
     // 自动刷新
     function flush(f) {
         if (f) {
-            // 获取当前页
-            var current = $('#pagination').bootstrapPaginator("getPages")['current']
+            // 可能分页插件还未加载
+            var current
+            if ($('#pagination').html() == "") {
+                current = 1; // 注意这里初始为1
+            } else {
+                // 获取当前页
+                current = $('#pagination').bootstrapPaginator("getPages")['current'];
+            }
             RequestGetPage(tabDom, 'http://localhost:8080/fetch?pageNo=' + (current - 1), function (data) {
 //                console.log(JSON.stringify(data));
                 taskQueueUpdate(document.getElementById('tab'), data);
                 if (data['autoFlush']) {
                     // 继续调用
-                    interval_handle = setTimeout("flush(true)", 1000);
+                    interval_handle = setTimeout("flush(true)", time_call);
                 } else {
                     clearInterval(interval_handle);
                 }

@@ -17,7 +17,8 @@ function taskQueueUpdate(tableDom, data) {
             var line = templateTr().format(content[i].date, content[i].type, statusLabel(content[i].status), content[i].status, content[i].id, content[i].type,
                 (content[i].status == '在执行中' || content[i].status == '请求异常') ? 'btn btn-secondary" disabled="disabled' : 'btn btn-primary',
                 content[i].type == '手动分析' ? 'display:none' : '', content[i].id, (content[i].status == '在执行中' || content[i].status == '请求异常')
-                    ? 'btn btn-secondary" disabled="disabled' : 'btn btn-primary', content[i].id, content[i].id);
+                    ? 'btn btn-secondary" disabled="disabled' : 'btn btn-primary', (content[i].status == '在执行中' || content[i].status == '请求异常')
+                    ? 'btn btn-secondary" disabled="disabled" style="color:black' : 'btn btn-danger', content[i].id, content[i].id);
             tab += line;
         }
     }
@@ -54,8 +55,8 @@ function renderPagination(jqueryObj, total, f) {
 
 function templateTr() {
     return '<tr><td>{0}</td><td>{1}</td><td><span class="{2}">{3}</span></td><td><button onclick="look({4}, \'{5}\')" class="{6}" style="color: black;{7}">查看</button>' +
-        '<button onclick="download({8})" class="{9}" style="color: black">下载</button></td><td><button class="btn btn-danger" onclick="deleteRequest({10})">删除</button>' +
-        '<button class="btn btn-success" onclick="getArguments({11})">参数</button></td></tr>';
+        '<button onclick="download({8})" class="{9}" style="color: black">下载</button></td><td><button class="{10}" onclick="deleteRequest({11})">删除</button>' +
+        '<button class="btn btn-success" onclick="getArguments({12})">参数</button></td></tr>';
 }
 
 function statusLabel(status) {

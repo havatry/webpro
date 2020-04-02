@@ -68,6 +68,7 @@ function RequestGetPage(dom, url, func_succ) {
         error: function(e){
             // alert(JSON.stringify(e));
             dom.innerHTML = '';
+            $('#pagination').html("");
             alert('无法获取到请求数据，请检查网络连接或者联系管理员');
             // dom.innerHTML = '<h3 style="text-align:center; color:rgb(186, 85, 211); margin-top: 100px; margin-bottom: 100px">未能获取到请求数据</h3>'
         }
