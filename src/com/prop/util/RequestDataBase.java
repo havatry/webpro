@@ -63,7 +63,9 @@ public class RequestDataBase {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, status);
         preparedStatement.setInt(2, id);
-        return preparedStatement.executeUpdate() > 0;
+        boolean succ = preparedStatement.executeUpdate() > 0;
+        connection.close();
+        return succ;
     }
 
     // 获取请求的执行参数
@@ -74,7 +76,9 @@ public class RequestDataBase {
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
-        return resultSet.getString("arguments");
+        String arguments = resultSet.getString("arguments");
+        connection.close();
+        return arguments;
     }
 
     // 设置参数
@@ -84,7 +88,9 @@ public class RequestDataBase {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, args);
         preparedStatement.setInt(2, id);
-        return preparedStatement.executeUpdate() > 0;
+        boolean succ =  preparedStatement.executeUpdate() > 0;
+        connection.close();
+        return succ;
     }
 
     // 获取用户uid的所有请求 并且按照时间降序 取出前SIZE条记录
@@ -107,6 +113,7 @@ public class RequestDataBase {
             records.add(record);
         }
         page.setData(records);
+        connection.close();
         return page;
     }
 
@@ -117,7 +124,9 @@ public class RequestDataBase {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
         resultSet.next();
-        return resultSet.getInt(1);
+        int total = resultSet.getInt(1);
+        connection.close();
+        return total;
     }
 
     // 删除指定的request
@@ -126,7 +135,9 @@ public class RequestDataBase {
         Connection connection = connect();
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, id);
-        return preparedStatement.executeUpdate() > 0;
+        boolean succ = preparedStatement.executeUpdate() > 0;
+        connection.close();
+        return succ;
     }
 
     public User queryUser(String username) throws SQLException, ClassNotFoundException {
@@ -144,6 +155,7 @@ public class RequestDataBase {
             user.setSessionId(resultSet.getString("sessionId"));
             user.setOrigin(resultSet.getString("origin"));
         }
+        connection.close();
         return user;
     }
 
@@ -155,7 +167,9 @@ public class RequestDataBase {
         preparedStatement.setString(2, user.getPassword());
         preparedStatement.setString(3, user.getSessionId());
         preparedStatement.setString(4, user.getOrigin());
-        return preparedStatement.executeUpdate() > 0;
+        boolean succ = preparedStatement.executeUpdate() > 0;
+        connection.close();
+        return succ;
     }
 
     public String findUid(String sessionId) throws SQLException, ClassNotFoundException {
@@ -164,12 +178,12 @@ public class RequestDataBase {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, sessionId);
         ResultSet resultSet = preparedStatement.executeQuery();
+        String origin_uid = null;
         if (resultSet.next()) {
-            return resultSet.getString("origin");
-        } else {
-            // 找不到
-            return null;
+            origin_uid = resultSet.getString("origin");
         }
+        connection.close();
+        return origin_uid;
     }
 
     // 搜索框查询
@@ -205,6 +219,7 @@ public class RequestDataBase {
             record.setType(resultSet.getString("type"));
             list.add(record);
         }
+        connection.close();
         return list;
     }
 }
