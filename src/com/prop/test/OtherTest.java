@@ -3,6 +3,9 @@ package com.prop.test;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -24,5 +27,13 @@ public class OtherTest {
         for (String p : content.get(0).split(" ")) {
             System.out.println(p);
         }
+    }
+
+    @Test
+    public void getFileName() {
+        String origin_file = "D:\\abc\\def\\k.txt";
+        System.out.println(origin_file.replace("\\\\", "/"));
+        System.out.println(origin_file.replaceAll("\\\\", "/"));
+        System.out.println(new File(origin_file).getName());
     }
 }

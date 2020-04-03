@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -183,7 +184,8 @@ public class HandleAnalyze extends HttpServlet{
             uploadDir.mkdirs();
         }
         // 解析其中的文件
-        String fileName = new File(item.getName()).getName();
+        String uploadFileName = item.getName().replaceAll("\\\\", "/"); // 做处理 否则linux无法通过getName获取文件名
+        String fileName = new File(uploadFileName).getName();
         String filePath = uploadPath + File.separator + fileName;
         File storeFile = new File(filePath);
         System.out.println("请求中文件写入 " + filePath + " 中");
