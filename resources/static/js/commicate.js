@@ -118,5 +118,5 @@ function RequestGetX(url, data, func_succ) {
 }
 
 function convertUrl(url) {
-    return url.replace("8080", "8080/webpro");
+    return url.replace("localhost:8080", "175.24.101.52:8080/webpro");
 }

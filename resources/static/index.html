@@ -6,11 +6,17 @@
     <title>虚拟网络映射系统</title>
 
     <!-- 外部js/css -->
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
-    <script src="js/external/bootstrap-paginator.min.js"></script>
+    <!--<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.css">-->
+    <!--<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>-->
+    <!--<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+	<!--<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>-->
+    <!--<script src="js/bootstrap-paginator.min.js"></script>-->
+
+    <link rel="stylesheet" href="external/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="external/jquery-2.1.1/dist/jquery.min.js"></script>
+    <script src="external/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="external/incubator-echarts-4.3.0-rc.2/dist/echarts.min.js"></script>
+    <script src="js/bootstrap-paginator.min.js"></script>
 
     <!-- 项目js/css -->
     <script src="js/login.js"></script>
@@ -164,9 +170,9 @@
         }
         var dom = document.getElementById('loginStatus');
         if (msg == '登录') {
-            dom.innerHTML = '<button style="margin-left: 10px" data-toggle="modal" data-target="#loginPage">登录</button>';
+            dom.innerHTML = '<button style="margin-left: 10px" type="button" data-toggle="modal" data-target="#loginPage">登录</button>';
         } else {
-            dom.innerHTML = '<button style="margin-left: 10px" onclick="login(\'logout\')">注销</button>';
+            dom.innerHTML = '<button style="margin-left: 10px" type="button" onclick="login(\'logout\')">注销</button>';
         }
     }
 
