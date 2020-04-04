@@ -139,21 +139,41 @@ public class GraphData extends HttpServlet{
         map.put("total", t.get("time"));
         // 获取文件数据
         Path p = Paths.get("results/data/" + String.valueOf(id));
-        List<String> AA = Files.readAllLines(p.resolve("simulation_aefAdvance.txt"));
-        List<String> AB = Files.readAllLines(p.resolve("simulation_aefBaseline.txt"));
-        List<String> S = Files.readAllLines(p.resolve("simulation_subgraph.txt"));
-        List<String> D = Files.readAllLines(p.resolve("simulation_ViNE.txt"));
-        List<String> N = Files.readAllLines(p.resolve("simulation_NRM.txt"));
-        List<Object> tAA = parseContent(AA);
-        map.put("AAE", tAA.get(0)); map.put("AAA", tAA.get(1)); map.put("AACR", tAA.get(2)); map.put("AASD", tAA.get(3));
-        List<Object> tAB = parseContent(AB);
-        map.put("ABE", tAB.get(0)); map.put("ABA", tAB.get(1)); map.put("ABCR", tAB.get(2)); map.put("ABSD", tAB.get(3));
-        List<Object> tS = parseContent(S);
-        map.put("SE", tS.get(0)); map.put("SA", tS.get(1)); map.put("SCR", tS.get(2)); map.put("SSD", tS.get(3));
-        List<Object> tD = parseContent(D);
-        map.put("DE", tD.get(0)); map.put("DA", tD.get(1)); map.put("DCR", tD.get(2)); map.put("DSD", tD.get(3));
-        List<Object> tN = parseContent(N);
-        map.put("NE", tN.get(0)); map.put("NA", tN.get(1)); map.put("NCR", tN.get(2)); map.put("NSD", tN.get(3));
+        RequestDataBase requestDataBase = new RequestDataBase();
+        String algorithms = null;
+        try {
+            algorithms = Process.asUrlMap(requestDataBase.getArguments(id)).get("algorithms");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        List<String> AA, AB, S, D, N;
+        if (algorithms.contains("AEF_Advance")) {
+            AA = Files.readAllLines(p.resolve("simulation_aefAdvance.txt"));
+            List<Object> tAA = parseContent(AA);
+            map.put("AAE", tAA.get(0)); map.put("AAA", tAA.get(1)); map.put("AACR", tAA.get(2)); map.put("AASD", tAA.get(3));
+        }
+        if (algorithms.contains("AEF_Baseline")) {
+            AB = Files.readAllLines(p.resolve("simulation_aefBaseline.txt"));
+            List<Object> tAB = parseContent(AB);
+            map.put("ABE", tAB.get(0)); map.put("ABA", tAB.get(1)); map.put("ABCR", tAB.get(2)); map.put("ABSD", tAB.get(3));
+        }
+        if (algorithms.contains("SubgraphIsomorphism")) {
+            S = Files.readAllLines(p.resolve("simulation_subgraph.txt"));
+            List<Object> tS = parseContent(S);
+            map.put("SE", tS.get(0)); map.put("SA", tS.get(1)); map.put("SCR", tS.get(2)); map.put("SSD", tS.get(3));
+        }
+        if (algorithms.contains("D-ViNE_SP")) {
+            D = Files.readAllLines(p.resolve("simulation_ViNE.txt"));
+            List<Object> tD = parseContent(D);
+            map.put("DE", tD.get(0)); map.put("DA", tD.get(1)); map.put("DCR", tD.get(2)); map.put("DSD", tD.get(3));
+        }
+        if (algorithms.contains("NRM")) {
+            N = Files.readAllLines(p.resolve("simulation_NRM.txt"));
+            List<Object> tN = parseContent(N);
+            map.put("NE", tN.get(0)); map.put("NA", tN.get(1)); map.put("NCR", tN.get(2)); map.put("NSD", tN.get(3));
+        }
         Process.setResp(resp, req.getHeader("origin"));
         PrintWriter out = resp.getWriter();
         out.println(JSON.toJSONString(map));
