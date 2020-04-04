@@ -117,6 +117,7 @@ function RequestGetX(url, data, func_succ) {
     });
 }
 
+// 这里转换url请求，需要将localhost:8080配置成实际需要的url前缀
 function convertUrl(url) {
-    return url.replace("localhost:8080", "175.24.101.52:8080/webpro");
+    return url_scheme + "://" + server_host + ":" + server_port + "/" + uri_prefix + url.substring(url.indexOf("8080/") + 4);
 }
