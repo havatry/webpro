@@ -20,7 +20,7 @@ function getArguments(id) {
 
 // 下载结果
 function download(id) {
-    var url = "http://localhost:8080/download";
+    var url = "http://175.24.101.52:8080/webpro/download";
     var form = $("<form></form>").attr("action", url).attr("method", "post");
     form.append($("<input></input>").attr("type", "hidden").attr("name", "id").attr("value", id));
     form.appendTo('body').submit().remove();

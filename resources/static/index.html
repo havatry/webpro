@@ -50,13 +50,13 @@
     <nav class="navbar navbar-inverse" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header col-md-2" data-toggle="modal" data-target="#handle">
-                <a class="navbar-brand" href="#">手动分析</a>
+                <a class="navbar-brand" onclick="renderIt('handle')">手动分析</a>
             </div>
             <div class="navbar-header col-md-2" data-toggle="modal" data-target="#experiment1">
-                <a class="navbar-brand" href="#">一阶段实验</a>
+                <a class="navbar-brand">一阶段实验</a>
             </div>
             <div class="navbar-header col-md-2" data-toggle="modal" data-target="#experiment2">
-                <a class="navbar-brand" href="#">二阶段协调实验</a>
+                <a class="navbar-brand" onclick="renderIt('twostage')">二阶段协调实验</a>
             </div>
             <form class="navbar-form navbar-left col-md-3 col-md-push-2" role="search">
                 <div class="form-group">
@@ -180,6 +180,53 @@
     function skip() {
         window.open("https://github.com/havatry/webpro/wiki/%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3",
             "_blank");
+    }
+
+    // 如果是linux部署, 不显示D-ViNE_SP
+    function renderIt(s) {
+        RequestGetX("http://localhost:8080/os", null, function (data) {
+            if (s == 'handle') {
+                $("#handle").modal("show");
+                if (data['os'] == 'linux') {
+                    $('.render_handle').html('<select name="algorithm">\n' +
+                        '<option value="RCRGF">RCRGF</option>\n' +
+                        '<option value="AEF_Advance">AEF_Advance</option>\n' +
+                        '<option value="AEF_Baseline">AEF_Baseline</option>\n' +
+                        '<option value="NRM">NRM</option>\n' +
+                        '<option value="Greedy">Greedy</option>\n' +
+                        '<option value="SubgraphIsomorphism">SubgraphIsomorphism</option>\n' +
+                        '</select>');
+                } else if (data['os'] == 'windows') {
+                    $('.render_handle').html('<select name="algorithm">\n' +
+                        '<option value="RCRGF">RCRGF</option>\n' +
+                        '<option value="AEF_Advance">AEF_Advance</option>\n' +
+                        '<option value="AEF_Baseline">AEF_Baseline</option>\n' +
+                        '<option value="NRM">NRM</option>\n' +
+                        '<option value="D-ViNE_SP">D-ViNE_SP</option>\n' +
+                        '<option value="Greedy">Greedy</option>\n' +
+                        '<option value="SubgraphIsomorphism">SubgraphIsomorphism</option>\n' +
+                        '</select>');
+                }
+            } else if (s == 'twostage') {
+                $("#experiment2").show();
+                if (data['os'] == 'linux') {
+                    $('.render_twostage').html('<select name="algorithms" multiple="multiple">\n' +
+                        '<option value="AEF_Advance" selected="selected">AEF_Advance</option>\n' +
+                        '<option value="AEF_Baseline">AEF_Baseline</option>\n' +
+                        '<option value="SubgraphIsomorphism">SubgraphIsomorphism</option>\n' +
+                        '<option value="NRM">NRM</option>\n' +
+                        '</select>');
+                } else if (data['os'] == 'windows') {
+                    $('.render_twostage').html('<select name="algorithms" multiple="multiple">\n' +
+                        '<option value="AEF_Advance" selected="selected">AEF_Advance</option>\n' +
+                        '<option value="AEF_Baseline">AEF_Baseline</option>\n' +
+                        '<option value="SubgraphIsomorphism">SubgraphIsomorphism</option>\n' +
+                        '<option value="D-ViNE_SP">D-ViNE_SP</option>\n' +
+                        '<option value="NRM">NRM</option>\n' +
+                        '</select>');
+                }
+            }
+        });
     }
 </script>
 </html>

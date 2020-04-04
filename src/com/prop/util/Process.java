@@ -120,4 +120,8 @@ public class Process {
         double b = Double.valueOf(fra.split("/")[1].trim());
         return a / b;
     }
+
+    public static boolean isLinux() {
+        return System.getProperty("os.name").toLowerCase().contains("linux");
+    }
 }
