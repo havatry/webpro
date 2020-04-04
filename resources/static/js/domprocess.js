@@ -17,7 +17,7 @@ function taskQueueUpdate(tableDom, data) {
             var line = templateTr().format(content[i].date, content[i].type, statusLabel(content[i].status), content[i].status, content[i].id, content[i].type,
                 (content[i].status == '在执行中' || content[i].status == '请求异常') ? 'btn btn-secondary" disabled="disabled' : 'btn btn-primary',
                 content[i].type == '手动分析' ? 'display:none' : '', content[i].id, (content[i].status == '在执行中' || content[i].status == '请求异常')
-                    ? 'btn btn-secondary" disabled="disabled' : 'btn btn-primary', (content[i].status == '在执行中' || content[i].status == '请求异常')
+                    ? 'btn btn-secondary" disabled="disabled' : 'btn btn-primary', (content[i].status == '在执行中')
                     ? 'btn btn-secondary" disabled="disabled" style="color:black' : 'btn btn-danger', content[i].id, content[i].id);
             tab += line;
         }
