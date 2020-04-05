@@ -12,8 +12,10 @@ function search() {
         } else if (pair[0] == 'margin') {
             $('table').css('margin-bottom', h);
             localStorage.setItem("table_margin", h);
+        } else if (pair[0] == 'top') {
+            $('.container').css('margin-top', h);
+            localStorage.setItem("contain_margin", h);
         }
-
     } else {
         RequestGetX("http://localhost:8080/search/record", {query: c, pageNo: 0}, function (data) {
             if (typeof(data['msg']) != 'undefined') {

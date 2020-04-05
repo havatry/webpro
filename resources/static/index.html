@@ -27,7 +27,7 @@
     <script src='js/commicate.js'></script>
     <script src='js/domprocess.js'></script>
     <script src='js/drawEchart.js'></script>
-    <script src='js/search.js?_=3'></script>
+    <script src='js/search.js'></script>
     <script src="config/setting.js"></script>
     <link rel='stylesheet' href='css/index.css'/>
 
@@ -247,6 +247,11 @@
             $('table').css('margin-bottom', 10);
         } else {
             $('table').css('margin-bottom', localStorage.getItem("table_margin"));
+        }
+        if (localStorage.getItem("container_margin") == null) {
+            $('.container').css('margin-top', 0);
+        } else {
+            $('.container').css('margin-top', localStorage.getItem("container_margin"));
         }
     }
 </script>
