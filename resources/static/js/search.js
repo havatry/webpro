@@ -15,6 +15,10 @@ function search() {
         } else if (pair[0] == 'top') {
             $('.container').css('margin-top', h);
             localStorage.setItem("contain_margin", h);
+        } else if (pair[0] == 'reset') {
+            // 重置所以设置
+            localStorage.clear();
+            setProperty();
         }
     } else {
         RequestGetX("http://localhost:8080/search/record", {query: c, pageNo: 0}, function (data) {
