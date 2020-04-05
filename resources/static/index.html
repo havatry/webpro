@@ -67,7 +67,7 @@
                 <div id="loginStatus" style="display: inline">
                     <!--<button style="margin-left: 10px">登录</button>-->
                 </div>
-                <button onclick="skip()">帮助</button>
+                <button type="button" onclick="skip()">帮助</button>
             </form>
         </div>
     </nav>
@@ -121,7 +121,7 @@
                     }
                     taskQueueUpdate(document.getElementById('tab'), data);
                     flush(data['autoFlush']);
-                })
+                });
             });
         });
     }
@@ -241,17 +241,17 @@
         if (localStorage.getItem("content_height") == null) {
             $(".jumbotron").height(520);
         } else {
-            $(".jumbotron").height(localStorage.getItem("content_height"));
+            $(".jumbotron").height(parseInt(localStorage.getItem("content_height")));
         }
         if (localStorage.getItem("table_margin") == null) {
             $('table').css('margin-bottom', 10);
         } else {
-            $('table').css('margin-bottom', localStorage.getItem("table_margin"));
+            $('table').css('margin-bottom', parseInt(localStorage.getItem("table_margin")));
         }
         if (localStorage.getItem("container_margin") == null) {
             $('.container').css('margin-top', 0);
         } else {
-            $('.container').css('margin-top', localStorage.getItem("container_margin"));
+            $('.container').css('margin-top', parseInt(localStorage.getItem("container_margin")));
         }
     }
 </script>
