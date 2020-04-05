@@ -27,7 +27,7 @@
     <script src='js/commicate.js'></script>
     <script src='js/domprocess.js'></script>
     <script src='js/drawEchart.js'></script>
-    <script src='js/search.js'></script>
+    <script src='js/search.js?_=1'></script>
     <script src="config/setting.js"></script>
     <link rel='stylesheet' href='css/index.css'/>
 
@@ -73,7 +73,7 @@
     </nav>
 </div>
 <!-- 超大屏幕 -->
-<div class="jumbotron" style="height: 575px;background-color: rgb(30,41,61);color: #fff;margin-top: -22px;font-size: 16px;margin-bottom: 0px">
+<div class="jumbotron" style="background-color: rgb(30,41,61);color: #fff;margin-top: -22px;font-size: 16px;margin-bottom: 0px">
     <div class="container">
         <h3 style="margin-left: -50px;margin-top: -30px;margin-bottom: 20px;color: rgb(36,169,225)">任务队列</h3>
         <table style="width: 100%;" id="tab"></table>
@@ -106,6 +106,7 @@
 
     // 初始化函数
     function init() {
+        setHeight();
         checkCookie();
         RequestGetPageWithDes(tabDom, 'http://localhost:8080/fetch?pageNo=0', function (data) {
 //            console.log(JSON.stringify(data));
@@ -228,6 +229,14 @@
                 }
             }
         });
+    }
+
+    function setHeight() {
+        if (localStorage.getItem("content_height") == null) {
+            $(".jumbotron").height(520);
+        } else {
+            $(".jumbotron").height(localStorage.getItem("content_height"));
+        }
     }
 </script>
 </html>

@@ -2,6 +2,11 @@ function search() {
     var c = $("#searchContent").val();
     if (c.trim() == "") {
         init();
+    } else if (c.indexOf('local') >= 0) {
+        // 本地指令, 设置页面高度
+        var h = parseInt(c.split(":")[1]);
+        $('.jumbotron').height(h);
+        localStorage.setItem("content_height", h);
     } else {
         RequestGetX("http://localhost:8080/search/record", {query: c, pageNo: 0}, function (data) {
             if (typeof(data['msg']) != 'undefined') {
