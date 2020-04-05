@@ -27,7 +27,7 @@
     <script src='js/commicate.js'></script>
     <script src='js/domprocess.js'></script>
     <script src='js/drawEchart.js'></script>
-    <script src='js/search.js?_=1'></script>
+    <script src='js/search.js?_=3'></script>
     <script src="config/setting.js"></script>
     <link rel='stylesheet' href='css/index.css'/>
 
@@ -106,7 +106,7 @@
 
     // 初始化函数
     function init() {
-        setHeight();
+        setProperty();
         checkCookie();
         RequestGetPageWithDes(tabDom, 'http://localhost:8080/fetch?pageNo=0', function (data) {
 //            console.log(JSON.stringify(data));
@@ -231,11 +231,16 @@
         });
     }
 
-    function setHeight() {
+    function setProperty() {
         if (localStorage.getItem("content_height") == null) {
             $(".jumbotron").height(520);
         } else {
             $(".jumbotron").height(localStorage.getItem("content_height"));
+        }
+        if (localStorage.getItem("table_margin") == null) {
+            $('table').css('margin-bottom', 10);
+        } else {
+            $('table').css('margin-bottom', localStorage.getItem("table_margin"));
         }
     }
 </script>

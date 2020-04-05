@@ -4,9 +4,16 @@ function search() {
         init();
     } else if (c.indexOf('local') >= 0) {
         // 本地指令, 设置页面高度
-        var h = parseInt(c.split(":")[1]);
-        $('.jumbotron').height(h);
-        localStorage.setItem("content_height", h);
+        var pair = c.split(":")[1].split("=");
+        var h = parseInt(pair[1]);
+        if (pair[0] == 'height') {
+            $('.jumbotron').height(h);
+            localStorage.setItem("content_height", h);
+        } else if (pair[0] == 'margin') {
+            $('table').css('margin-bottom', h);
+            localStorage.setItem("table_margin", h);
+        }
+
     } else {
         RequestGetX("http://localhost:8080/search/record", {query: c, pageNo: 0}, function (data) {
             if (typeof(data['msg']) != 'undefined') {
