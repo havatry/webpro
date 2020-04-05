@@ -154,7 +154,7 @@
     function checkCookie() {
         // 如果是跨站访问，由于cookie不能写入浏览器，因此不能依据下面逻辑来登陆或者注销
         // 处理方式是不显示该按钮
-        if (server_host != 'localhost' || server_host != '127.0.0.1') {
+        if (!login_on) {
             // 跨站
             return;
         }
