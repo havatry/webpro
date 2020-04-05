@@ -14,7 +14,7 @@ function search() {
             localStorage.setItem("table_margin", h);
         } else if (pair[0] == 'top') {
             $('.container').css('margin-top', h);
-            localStorage.setItem("contain_margin", h);
+            localStorage.setItem("container_margin", h);
         } else if (pair[0] == 'reset') {
             // 重置所以设置
             localStorage.clear();
